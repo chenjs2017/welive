@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:vm="clr-namespace:WeLive;" x:Class="WeLive.LoginPage" Title="AppName">
+	<ContentPage.BindingContext>
+		<vm:LoginViewModel />
+	</ContentPage.BindingContext>
+	<ScrollView>
+		<Grid Padding="20,40,20,20" ColumnSpacing="10" RowSpacing="20">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+            
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="100" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+            
+			<StackLayout Spacing="30" Grid.Row="0" Grid.ColumnSpan="2">
+				<Image HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="95" HeightRequest="95" Source="profile_generic.png" 
+                Aspect="AspectFill" x:Name="CircleImageAvatar" />
+				<Label HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" LineBreakMode="WordWrap" FontSize="Large" 
+                    Text="请输入用户名和密码来登录" />
+			</StackLayout>
+            
+                <Label Grid.Row="1" Grid.Column="0" Text="用户名：" FontSize="Medium" />
+                <Entry Grid.Row="1" Grid.Column="1"  Text="{Binding LoginUser.username, Mode=TwoWay}" FontSize="Small" />
+
+                <Label Grid.Row="2" Grid.Column="0" Text="密码：" FontSize="Medium" />
+                <Entry IsPassword="true"  Grid.Row="2" Grid.Column="1"  Text="{Binding LoginUser.password, Mode=TwoWay}" FontSize="Small"  />
+            
+			<Button Grid.Row="3" Grid.Column="0" Text="Not Now" Command="{Binding NotNowCommand}" 
+                x:Name="ButtonNowNow" HorizontalOptions="FillAndExpand"/>
+			<Button Grid.Row="3" Grid.Column="1" Text="Sign In" Command="{Binding SignInCommand}" 
+                HorizontalOptions="FillAndExpand"  
+            TextColor="White" BackgroundColor="{StaticResource Primary}" IsEnabled="{Binding !IsBusy}" />
+
+            <StackLayout Grid.Row="4" Grid.ColumnSpan="2" VerticalOptions="Center" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                    <ActivityIndicator.Color>
+                        <OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
+                    </ActivityIndicator.Color>
+                </ActivityIndicator>
+                <Label Text="{Binding Message}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+           
+		</Grid>
+	</ScrollView>
+</ContentPage>
