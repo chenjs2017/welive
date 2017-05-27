@@ -11,14 +11,14 @@
          
         <ScrollView>
             
-		<StackLayout Spacing="0" Padding="15">
-			<Label Text="信息标题" FontSize="Medium" />
-			<Entry Text="{Binding Item.title}" FontSize="Small" />
-			<Label Text="描述、打折优惠、联系电话" FontSize="Medium" />
+		<StackLayout Spacing="0" Padding="15" BackgroundColor="#fafafa">
+			<Label Text="标题(Title)"  />
+			<Entry Text="{Binding Item.title, Mode=TwoWay}" FontSize="Small" />
+			<Label Text="描述、联系电话(Content,phone number)"  />
                 
-			<Editor Text="{Binding Item.content}" FontSize="Small" HeightRequest="90" BindingContext="#C0C0C0" />
-            <Label Text="地址" FontSize="Medium" /><Button Clicked="getlocation_click" Text="get location"></Button>
-            <Entry Text="{Binding Item.address}" FontSize="Small" Margin="1" />
+			<Editor Text="{Binding Item.content, Mode=TwoWay}" FontSize="Small" HeightRequest="90"  />
+            <Button Clicked="getlocation_click" Text="获取或输入地址(Get/input Location)" AnchorX="0"></Button>
+            <Entry Text="{Binding Item.address, Mode=TwoWay}" FontSize="Small" Margin="1" />
                 
             <Grid>
 
@@ -78,8 +78,8 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button Clicked ="btnBrowsePhotos_Click" Text="选择图片"  Grid.Row="0" Grid.Column="0" x:Name="btnBrowsePhoto" IsEnabled="{Binding CanAddPhoto}"/>
-                <Button Clicked="btnTakePhotos_Click" Text="拍照上传"  Grid.Row="0" Grid.Column="1" x:Name="btnTakePhoto" IsEnabled="{Binding CanAddPhoto}"/>
+                <Button Clicked ="btnBrowsePhotos_Click" Text="选择图片(Pick Picture)"  Grid.Row="0" Grid.Column="0" x:Name="btnBrowsePhoto" IsEnabled="{Binding CanAddPhoto}"/>
+                <Button Clicked="btnTakePhotos_Click" Text="拍照上传(Take Picture)"  Grid.Row="0" Grid.Column="1" x:Name="btnTakePhoto" IsEnabled="{Binding CanAddPhoto}"/>
                 </Grid>
                 
         </StackLayout>

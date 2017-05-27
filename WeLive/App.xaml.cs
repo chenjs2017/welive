@@ -18,7 +18,7 @@ namespace WeLive
             InitializeComponent();
             DependencyService.Register<PropertyDataStore>();
             DependencyService.Register<UserDataStore>();
-
+            DependencyService.Register<MediaDataStore>();
             SetMainPage();
         }
 

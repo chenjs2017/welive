@@ -19,14 +19,27 @@ namespace WeLive
         { 
             get
             {
-                return Item.PicPaths.Count < maxPictureCount;
+                return _bufferPath[_bufferPath.Count -1 ] == String.Empty;
             }
             set 
             {
                 OnPropertyChanged();
             }
         }
-		private Property Item { get; set; }
+        public async Task Save()
+        {
+            //upload picture first
+            foreach (string str in _bufferPath)
+            {
+                if (str == string.Empty)
+                    continue;
+                string remote = await MediaDataStore.UploadImage(str);   
+                Item.PicPaths.Add(remote);
+            }
+            PropertyDataStore.AddItemAsync(Item);
+            
+        }
+        public Property Item { get; set; }
         public ItemDetailViewModel(Property item = null)
         {
             if (item == null)
@@ -38,37 +51,31 @@ namespace WeLive
             Item = item;
 
         }
-        List<bool> _bufferHas = null;
-        public List<bool> HasPics
+
+        List<bool> _hasPics;
+        public List <bool> HasPics
         {
-            get
+            get 
             {
-                if (_bufferHas != null)
+                if (_hasPics != null)
                 {
-                    return _bufferHas;
+                    return _hasPics;
                 }
-                _bufferHas = new List<bool>();
-				for (int i = 0; i < maxPictureCount; i++)
-				{
-                    if (i < Item.PicPaths.Count)
-                    {
-                        _bufferHas.Add(true);
-                    }
-                    else
-                    {
-                        _bufferHas.Add(false);
-                    }
-				}
-                return _bufferHas;                    
+                _hasPics = new List<bool>();
+                foreach(string path in PicPaths)
+                {
+                    _hasPics.Add(path != string.Empty);
+                }
+                return _hasPics;
             }
-            set 
+            set
             {
-                _bufferHas = value;
+                _hasPics = null;
                 OnPropertyChanged();
             }
         }
 
-        List<String> _bufferPath = null;
+        List<String> _bufferPath;
         public List<String> PicPaths
 		{
 			get
@@ -80,42 +87,44 @@ namespace WeLive
                 _bufferPath = new List<String>();
 				for (int i = 0; i < maxPictureCount; i++)
 				{
-					if (i < Item.PicPaths.Count)
-					{
-                        _bufferPath.Add(Item.PicPaths[i]);
-					}
-					else
-					{
-                        _bufferPath.Add(String.Empty);
-					}
+					_bufferPath.Add(String.Empty);
 				}
                 return _bufferPath;
 			}
             set 
             {
-                _bufferPath = value;
                 OnPropertyChanged();
             }
 		}
 
         public void AddPicture(string path)
         {
-            Item.PicPaths.Add(path);
+            for (int i = 0; i < _bufferPath.Count; i++)
+            {
+                if (_bufferPath[i] == string.Empty)
+                {
+                    _bufferPath[i] = path;
+                    break;
+                }                
+            }
 			RefreshPrperty();
 
 		}
 
         public void RemovePicture(int index)
         {
-            Item.PicPaths.RemoveAt(index);
+            for (int i = index; i < _bufferPath.Count - 1; i++)
+            {
+                _bufferPath[i] = _bufferPath[i + 1];
+            }
             RefreshPrperty();
         }
 
         void RefreshPrperty()
         {
-			HasPics = null;
 			PicPaths = null;
 			CanAddPhoto = false;
+            HasPics = null;
         }
     }
 }

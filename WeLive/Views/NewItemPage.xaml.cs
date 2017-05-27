@@ -19,6 +19,7 @@ namespace WeLive
        
 		public NewItemPage()
 		{
+            //string a = AppResources.AddButton;
 			InitializeComponent();
             BindingContext = viewModel = new ItemDetailViewModel();
             InitImageControls();
@@ -60,7 +61,7 @@ namespace WeLive
 
             if (!current.IsPickPhotoSupported)
 			{
-				await DisplayAlert("Can't pic photos", ":( Can't pic photos.", "OK");
+                await DisplayAlert("无法选取图片(Can't pic photos)", "无法选取图片(Can't pic photos)", "确认(OK)");
 				return;
 			}
             MediaFile file = await current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
@@ -91,7 +92,7 @@ namespace WeLive
 
             if (!current.IsCameraAvailable || !current.IsTakePhotoSupported)
 			{
-				await DisplayAlert("No Camera", ":( No camera available.", "OK");
+                await DisplayAlert("没有拍照设备(No Camera)", "没有拍照设备(No camera available.)", "确认(OK)");
 				return;
 			}
             MediaFile file = await current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
@@ -114,7 +115,9 @@ namespace WeLive
 
         async void Save_Clicked(object sender, EventArgs e)
         {
+
             //MessagingCenter.Send(this, "AddItem", Item);
+            await viewModel.Save();
             await Navigation.PopToRootAsync();
         }
         void remove_click(object sender, EventArgs e)

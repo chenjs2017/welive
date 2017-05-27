@@ -52,8 +52,5 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewItemPage.xaml" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>

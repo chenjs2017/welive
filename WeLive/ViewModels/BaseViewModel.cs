@@ -9,7 +9,7 @@ namespace WeLive
         /// </summary>
         public PropertyDataStore PropertyDataStore => DependencyService.Get<PropertyDataStore>();
         public UserDataStore UserDataStore => DependencyService.Get<UserDataStore>();
-
+        public MediaDataStore MediaDataStore => DependencyService.Get<MediaDataStore>();
         bool isBusy = false;
         public bool IsBusy
         {
