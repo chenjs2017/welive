@@ -4,14 +4,25 @@
 
     
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Text="Save" Clicked="Save_Clicked" />
+		<ToolbarItem Text="Save"  Clicked="Save_Clicked"/>
 	</ContentPage.ToolbarItems>
  
 	<ContentPage.Content >
          
         <ScrollView>
             
+            
 		<StackLayout Spacing="0" Padding="15" BackgroundColor="#fafafa">
+
+                 <StackLayout  VerticalOptions="Center" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                    <ActivityIndicator.Color>
+                        <OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
+                    </ActivityIndicator.Color>
+                </ActivityIndicator>
+                <Label Text="{Binding Message}" VerticalOptions="Center" FontSize="Small" TextColor="Red" HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+                
 			<Label Text="标题(Title)"  />
 			<Entry Text="{Binding Item.title, Mode=TwoWay}" FontSize="Small" />
 			<Label Text="描述、联系电话(Content,phone number)"  />
@@ -82,7 +93,10 @@
                 <Button Clicked="btnTakePhotos_Click" Text="拍照上传(Take Picture)"  Grid.Row="0" Grid.Column="1" x:Name="btnTakePhoto" IsEnabled="{Binding CanAddPhoto}"/>
                 </Grid>
                 
+
+            
         </StackLayout>
+               
             </ScrollView>
 	</ContentPage.Content>
 </ContentPage>

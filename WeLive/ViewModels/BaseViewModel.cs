@@ -28,5 +28,12 @@ namespace WeLive
             get { return title; }
             set { SetProperty(ref title, value); }
         }
+
+		string message = string.Empty;
+		public string Message
+		{
+			get { return message; }
+			set { message = value; OnPropertyChanged(); }
+		}
     }
 }

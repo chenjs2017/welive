@@ -21,12 +21,7 @@ namespace WeLive
         }
 		
 
-		string message = string.Empty;
-		public string Message
-		{
-			get { return message; }
-			set { message = value; OnPropertyChanged(); }
-		}
+		
 
 		public ICommand NotNowCommand { get; }
 		public ICommand SignInCommand { get; }

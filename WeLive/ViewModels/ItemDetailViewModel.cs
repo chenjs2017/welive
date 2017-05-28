@@ -26,19 +26,57 @@ namespace WeLive
                 OnPropertyChanged();
             }
         }
-        public async Task Save()
+        public async Task<bool> Save()
         {
-            //upload picture first
-            foreach (string str in _bufferPath)
+            if (IsBusy)
+                return false;
+
+			IsBusy = true;
+            Message = string.Empty;
+			if (String.IsNullOrEmpty(Item.title))
+			{
+                Message += "请输入标题（please input title)";
+			}
+			if (String.IsNullOrEmpty(Item.content))
+			{
+                Message += "\r\n请输入内容（please input content)";
+
+			}
+			if (!HasPics[0])
+			{
+                Message += "\r\n请上传图片（please upload pictures)";
+			}
+
+            if (!string.IsNullOrEmpty(Message))
             {
-                if (str == string.Empty)
-                    continue;
-                string remote = await MediaDataStore.UploadImage(str);   
-                Item.PicPaths.Add(remote);
+                IsBusy = false;
+                return false;
             }
-            PropertyDataStore.AddItemAsync(Item);
-            
-        }
+
+            try
+            {
+                string id = await PropertyDataStore.AddItemAsync(Item);
+                int i = 0;
+                foreach (string str in _bufferPath)
+                {
+                    if (str == string.Empty)
+                        break;
+                    string attachmentID = await MediaDataStore.UploadImage(str, id, i.ToString());
+                    i++;
+                }
+                return true;
+            }
+            catch(System.Exception ex)
+            {
+                return false;
+            }
+            finally
+            {
+                IsBusy = false;
+                Message = string.Empty;
+            }
+
+		}
         public Property Item { get; set; }
         public ItemDetailViewModel(Property item = null)
         {
@@ -84,8 +122,26 @@ namespace WeLive
                 {
                     return _bufferPath;
                 }
+
                 _bufferPath = new List<String>();
-				for (int i = 0; i < maxPictureCount; i++)
+				
+                if (Item.attachments != null )
+                {
+                    foreach (var att in Item.attachments)
+                    {
+                        if (att.images != null &&
+                            att.images.full != null &&
+                            !string.IsNullOrEmpty(att.images.full.url)
+                            )
+                        {
+                            _bufferPath.Add(att.images.full.url);
+
+                        }
+                    }
+                }
+
+                int count = _bufferPath.Count;
+                for (int i = count; i < maxPictureCount; i++)
 				{
 					_bufferPath.Add(String.Empty);
 				}
@@ -117,6 +173,7 @@ namespace WeLive
             {
                 _bufferPath[i] = _bufferPath[i + 1];
             }
+            _bufferPath[_bufferPath.Count - 1] = string.Empty;
             RefreshPrperty();
         }
 

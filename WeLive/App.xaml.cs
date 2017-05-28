@@ -53,12 +53,12 @@ namespace WeLive
                 Children = {
                     new NavigationPage(new ItemsPage())
                     {
-                        Title = "Browse",
+                        Title = "浏览(Browse)",
                         Icon = Device.OnPlatform("tab_feed.png", null, null)
                     },
                     new NavigationPage(new AboutPage())
                     {
-                        Title = "About",
+                        Title = "关于(About)",
                         Icon = Device.OnPlatform("tab_about.png", null, null)
                     },
                 }

@@ -11,19 +11,18 @@ namespace WeLive
         public MediaDataStore()
         {
         }
-        public async Task<string> UploadImage(string path)
+        public async Task<string> UploadImage(string path,string postID,string index)
         {
-            string url = "api/properties/uploadImage";
+            string url = String.Format("api/properties/uploadImage?post_id={0}&image_index={1}", postID, index);
+            var requestContent = new MultipartFormDataContent();
+
             var ImageDate = File.ReadAllBytes(path);
-			var requestContent = new MultipartFormDataContent();
 			var imageContent = new ByteArrayContent(ImageDate);
 			imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
-			requestContent.Add(imageContent, "image", Guid.NewGuid().ToString() + ".jpg");
+			requestContent.Add(imageContent, "attachment", Guid.NewGuid().ToString() + ".jpg");
             var response = await client.PostAsync(url , requestContent);
-			var stringContent = await response.Content.ReadAsStringAsync();
-            stringContent = stringContent.Trim().Trim('"').Replace("\\/", "/");
-            stringContent = App.BackendUrl + stringContent;
-			return stringContent;
+			var attachmentID = await response.Content.ReadAsStringAsync();
+            return attachmentID;
         }
     }
 }

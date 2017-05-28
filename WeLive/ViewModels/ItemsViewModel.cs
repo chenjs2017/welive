@@ -13,7 +13,7 @@ namespace WeLive
 
         public ItemsViewModel()
         {
-            Title = "Browse";
+            Title = "列表(Browse)";
             Items = new ObservableRangeCollection<Property>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
@@ -47,9 +47,9 @@ namespace WeLive
                 Debug.WriteLine(ex);
                 MessagingCenter.Send(new MessagingCenterAlert
                 {
-                    Title = "Error",
-                    Message = "Unable to load items.",
-                    Cancel = "OK"
+                    Title = "",
+                    Message = "无法载入信息(Unable to load items)",
+                    Cancel = "确定(OK)"
                 }, "message");
             }
             finally

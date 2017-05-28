@@ -10,7 +10,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using Plugin.Connectivity;
-
+using System.Net.Http.Headers;
+using System.IO;
 namespace WeLive
 {
     public class PropertyDataStore : BaseDataStore
@@ -34,13 +35,12 @@ namespace WeLive
                 var json = await client.GetStringAsync($"api/properties/get_my_properties/");
                 JObject root = JObject.Parse(json);
                 var values = root["posts"].Children();
+                items.Clear(); 
                 foreach (JToken result in values)
                 {
 					Property item = result.ToObject<Property>();
                     items.Add(item);
                 }
-
-                //items = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Property>>(json));
             }
 
             return items;
@@ -51,22 +51,22 @@ namespace WeLive
             if (id != null && CrossConnectivity.Current.IsConnected)
             {
                 var json = await client.GetStringAsync($"api/item/{id}");
-                //items = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Property>>(json));
             }
 
             return null;
         }
 
-        public async Task<bool> AddItemAsync(Property item)
+        public async Task<string> AddItemAsync(Property item)
         {
             if (item == null || !CrossConnectivity.Current.IsConnected)
-                return false;
-
+                return null;
+            
             var serializedItem = JsonConvert.SerializeObject(item);
+            var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync($"api/item", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
-
-            return response.IsSuccessStatusCode ? true : false;
+            var response = await client.PostAsync($"api/properties/create_property/", content);
+            var stringContent = await response.Content.ReadAsStringAsync();
+            return stringContent.Trim();
         }
 
         public async Task<bool> UpdateItemAsync(Property item)
