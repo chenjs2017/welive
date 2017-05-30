@@ -27,7 +27,15 @@ namespace WeLive
 
 		public void SetCookie(String cookie)
 		{
-			handler.CookieContainer.SetCookies(client.BaseAddress, cookie);
+            try 
+            {
+				handler.CookieContainer.SetCookies(client.BaseAddress, cookie);
+
+			}
+            catch(System.Exception ex) 
+            {
+                Debug.Write(ex.Message); 
+            }
 		}
 
     }

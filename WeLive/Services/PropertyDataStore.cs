@@ -26,7 +26,7 @@ namespace WeLive
                 var json = await client.GetStringAsync($"api/properties/get_my_properties/");
                 if (json.Contains("no user"))
                 {
-                    throw new NotLoginException();
+                    throw new Exception("notlogin");
                 }
                 JObject root = JObject.Parse(json);
                 var values = root["posts"].Children();

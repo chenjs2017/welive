@@ -43,7 +43,7 @@
                         <OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
                     </ActivityIndicator.Color>
                 </ActivityIndicator>
-                <Label Text="{Binding Message}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+                <Label Text="{Binding Message}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" FontSize="Small" TextColor="Red"  />
             </StackLayout>
            
 		</Grid>

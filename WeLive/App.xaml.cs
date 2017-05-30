@@ -14,10 +14,6 @@ namespace WeLive
         public App()
         {
             InitializeComponent();
-            DependencyService.Register<PropertyDataStore>();
-            DependencyService.Register<UserDataStore>();
-            DependencyService.Register<MediaDataStore>();
-
             App.DataUptodate = false;
             SetMainPage();
         }

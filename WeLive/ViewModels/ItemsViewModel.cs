@@ -22,7 +22,7 @@ namespace WeLive
             {
                 var _item = item as Property;
                 Items.Add(_item);
-                await PropertyDataStore.AddItemAsync(_item);
+                await ThePropertyDataStore.AddItemAsync(_item);
             });
         }
 
@@ -36,28 +36,32 @@ namespace WeLive
             try
             {
                 Items.Clear();
-                var items = await PropertyDataStore.GetItemsAsync();
+                var items = await ThePropertyDataStore.GetItemsAsync();
 
                 Items.ReplaceRange(items);
                 App.DataUptodate = true;
                 if (Settings.MaxImageCount == 0)
 				{
-					Settings.MaxImageCount = await MediaDataStore.GetMaxUploadImageCount();
+					Settings.MaxImageCount = await TheMediaDataStore.GetMaxUploadImageCount();
 				}
             }
-            catch (NotLoginException notlogin)
-            {
-                App.ResetCookieAndSetMainPage();
-            }
+        
             catch (Exception ex)
             {
-               
-                MessagingCenter.Send(new MessagingCenterAlert
+
+                if (ex.Message == ErrorMessage.NotLogin)
                 {
-                    Title = "",
-                    Message = "无法载入信息(Unable to load items)",
-                    Cancel = "确定(OK)"
-                }, "message");
+                    App.ResetCookieAndSetMainPage();
+                }
+                else
+                {
+                    MessagingCenter.Send(new MessagingCenterAlert
+                    {
+                        Title = "",
+                        Message = "无法载入信息(Unable to load items)",
+                        Cancel = "确定(OK)"
+                    }, "message");
+                }
             }
             finally
             {

@@ -7,9 +7,9 @@ namespace WeLive
         /// <summary>
         /// Get the azure service instance
         /// </summary>
-        public PropertyDataStore PropertyDataStore => DependencyService.Get<PropertyDataStore>();
-        public UserDataStore UserDataStore => DependencyService.Get<UserDataStore>();
-        public MediaDataStore MediaDataStore => DependencyService.Get<MediaDataStore>();
+        public PropertyDataStore ThePropertyDataStore = new PropertyDataStore();
+        public LoginDataStore TheLoginDataStore = new LoginDataStore();
+        public MediaDataStore TheMediaDataStore = new MediaDataStore();
         bool isBusy = false;
         public bool IsBusy
         {

@@ -5,6 +5,7 @@ using System.Net;
 using Xamarin.Forms;
 using WeLive;
 using System;
+using System.Diagnostics;
 namespace WeLive
 {
     public class LoginViewModel : BaseViewModel
@@ -20,13 +21,9 @@ namespace WeLive
         public User LoginUser 
         {
             get { return loginUser; }
-            set { loginUser = value;OnPropertyChanged(); }
         }
 		
-
-		
-
-		public ICommand NotNowCommand { get; }
+        public ICommand NotNowCommand { get; }
 		public ICommand SignInCommand { get; }
 
 		async Task SignIn()
@@ -34,38 +31,39 @@ namespace WeLive
 			try
 			{
 				IsBusy = true;
-				Message = "Signing In...";
+                Message = "登录中...(Signing In...)";
 
 				// Log the user in
-				await TryLoginAsync();
-			}
-			finally
-			{
-				Message = string.Empty;
-				IsBusy = false;
-
-				if (Settings.IsLoggedIn)
-                {
+				var cookie = await TheLoginDataStore.DoLogin(loginUser.username, loginUser.password);
+				if (cookie != null)
+				{
+					Settings.Cookie = cookie.cookie_name + "=" + cookie.cookie;
+					Settings.UserId = cookie.user.id;
+					MyHttpClient.Instance.SetCookie();
                     App.GoToMainPage();
-                }
-                else 
-                {
-                    Message = "Wrong Username/password!";
-                }
+				}
+
 			}
+        
+            catch (Exception ex)
+            {
+                if (ex.Message == ErrorMessage.LoginFail)
+                {
+					Message = "登录失败，请检查用户名密码后重试（Login Failed, Please check your username/password and try later）";
+
+				}
+                else {
+					Debug.Write(ex.Message);
+					Message = "服务器繁忙，请稍后再试(Web Server issue, plase try later)";
+                }
+				
+            }
+            finally
+            {
+                IsBusy = false;
+            }
 		}
 
-        public  async Task TryLoginAsync()
-		{
-           
-            var cookie = await UserDataStore.DoLogin(loginUser.username, loginUser.password);
-            if (cookie != null)
-            {
-                Settings.Cookie = cookie.cookie_name + "=" + cookie.cookie;
-                Settings.UserId = cookie.user.id;
-                MyHttpClient.Instance.SetCookie();
-            }
-
-		}     
+      
     }
 }

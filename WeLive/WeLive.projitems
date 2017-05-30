@@ -39,13 +39,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\UserDataStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LoginDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\BaseDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Cookie.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MyHttpClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MediaDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DynamicGrid.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\NotLoginException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ErrorMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml" />

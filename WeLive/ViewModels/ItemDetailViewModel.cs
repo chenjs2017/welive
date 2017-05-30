@@ -33,7 +33,7 @@ namespace WeLive
         {
             try 
             {
-                bool result = await PropertyDataStore.DeleteItemAsync(Item.id);
+                bool result = await ThePropertyDataStore.DeleteItemAsync(Item.id);
                 if (result)
                 {
 					App.DataUptodate = false;
@@ -77,14 +77,14 @@ namespace WeLive
             try
             {
                 Message = "正在连接服务器(connecting)...";
-                string id = await PropertyDataStore.AddItemAsync(Item);
+                string id = await ThePropertyDataStore.AddItemAsync(Item);
                 int i = 0;
                 foreach (string str in _bufferPath)
                 {
                     if (str == string.Empty)
                         break;
                     Message = String.Format("上传第{0}张图片(uploading image {0})", i + 1);
-                    string attachmentID = await MediaDataStore.UploadImage(str, id, i.ToString());
+                    string attachmentID = await TheMediaDataStore.UploadImage(str, id, i.ToString());
                     i++;
                 }
                 App.DataUptodate = false;
