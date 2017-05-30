@@ -9,9 +9,7 @@ namespace WeLive
 {
     public partial class App : Application
     {
-        public static string BackendUrl = "http://13.58.22.130/wp1";
-
-        public static IDictionary<string, string> LoginParameters => null;
+        public static bool DataUptodate { get; set; }
 
         public App()
         {
@@ -19,6 +17,8 @@ namespace WeLive
             DependencyService.Register<PropertyDataStore>();
             DependencyService.Register<UserDataStore>();
             DependencyService.Register<MediaDataStore>();
+
+            App.DataUptodate = false;
             SetMainPage();
         }
 
@@ -40,8 +40,9 @@ namespace WeLive
            
         }
 
-        public static void ResetCookie()
+        public static void ResetCookieAndSetMainPage()
         {
+            DataUptodate = false;   
             Settings.ResetCookie();
             SetMainPage();
         }
@@ -58,7 +59,7 @@ namespace WeLive
                     },
                     new NavigationPage(new AboutPage())
                     {
-                        Title = "关于(About)",
+                        Title = "设置(Settings)",
                         Icon = Device.OnPlatform("tab_about.png", null, null)
                     },
                 }

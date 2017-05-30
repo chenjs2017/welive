@@ -9,9 +9,10 @@ namespace WeLive
     public class ItemsViewModel : BaseViewModel
     {
         public ObservableRangeCollection<Property> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
 
-        public ItemsViewModel()
+		public Command LoadItemsCommand { get; set; }
+
+		public ItemsViewModel()
         {
             Title = "列表(Browse)";
             Items = new ObservableRangeCollection<Property>();
@@ -27,7 +28,7 @@ namespace WeLive
 
         async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy)
+            if (IsBusy || App.DataUptodate)
                 return;
 
             IsBusy = true;
@@ -35,16 +36,22 @@ namespace WeLive
             try
             {
                 Items.Clear();
-                var items = await PropertyDataStore.GetItemsAsync(true);
+                var items = await PropertyDataStore.GetItemsAsync();
+
                 Items.ReplaceRange(items);
+                App.DataUptodate = true;
+                if (Settings.MaxImageCount == 0)
+				{
+					Settings.MaxImageCount = await MediaDataStore.GetMaxUploadImageCount();
+				}
+            }
+            catch (NotLoginException notlogin)
+            {
+                App.ResetCookieAndSetMainPage();
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("404"))
-                {
-                    App.ResetCookie();
-                }
-                Debug.WriteLine(ex);
+               
                 MessagingCenter.Send(new MessagingCenterAlert
                 {
                     Title = "",

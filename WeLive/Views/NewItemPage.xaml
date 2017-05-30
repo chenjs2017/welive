@@ -31,55 +31,7 @@
             <Button Clicked="getlocation_click" Text="获取或输入地址(Get/input Location)" AnchorX="0"></Button>
             <Entry Text="{Binding Item.address, Mode=TwoWay}" FontSize="Small" Margin="1" />
                 
-            <Grid>
-
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-              </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-              </Grid.ColumnDefinitions>
-                    <StackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding HasPics[0]}" >
-                        <Image x:Name ="image00" WidthRequest="90" HeightRequest="90" Aspect="AspectFill" Source="{Binding PicPaths[0]}"  />
-                        <Button Text="Remove" Clicked="remove_click" x:Name="btn00" ></Button>
-                    </StackLayout >
-                      <StackLayout Grid.Row="0" Grid.Column="1" IsVisible="{Binding HasPics[1]}" >
-                        <Image x:Name ="image01" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"  Source="{Binding PicPaths[1]}" />
-                        <Button Text="Remove" Clicked="remove_click" x:Name="btn01" ></Button>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="0" Grid.Column="2" IsVisible="{Binding HasPics[2]}">
-                        <Image x:Name ="image02" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[2]}"/>
-                        <Button Text="Remove" Clicked="remove_click" x:Name="btn02"></Button>
-                    </StackLayout >
-                      <StackLayout Grid.Row="1" Grid.Column="0" IsVisible="{Binding HasPics[3]}" >
-                        <Image x:Name ="image10" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[3]}"/>
-                        <Button Text="Remove" Clicked="remove_click" x:Name="btn10"></Button>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="1" Grid.Column="1" IsVisible="{Binding HasPics[4]}">
-                        <Image x:Name ="image11" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[4]}"/>
-                        <Button Text="Remove" Clicked="remove_click" x:Name="btn11" ></Button>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="1" Grid.Column="2" IsVisible="{Binding HasPics[5]}">
-                        <Image x:Name ="image12" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[5]}"/>
-                        <Button Text="Remove" Clicked="remove_click" x:Name="btn12"></Button>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="2" Grid.Column="0" IsVisible="{Binding HasPics[6]}">
-                        <Image x:Name ="image20" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[6]}"/>
-                        <Button Text="Remove" Clicked="remove_click" x:Name="btn20"></Button>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="2" Grid.Column="1" IsVisible="{Binding HasPics[7]}">
-                        <Image x:Name ="image21" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[7]}"/>
-                        <Button Text="Remove" Clicked="remove_click" x:Name="btn21"></Button>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="2" Grid.Column="2" IsVisible="{Binding HasPics[8]}">
-                        <Image x:Name ="image22" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[8]}"/>
-                        <Button Text="Remove" Clicked="remove_click" x:Name="btn22"></Button>
-                    </StackLayout >
-                </Grid>
+           
                  <Grid >
               <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -93,6 +45,8 @@
                 <Button Clicked="btnTakePhotos_Click" Text="拍照上传(Take Picture)"  Grid.Row="0" Grid.Column="1" x:Name="btnTakePhoto" IsEnabled="{Binding CanAddPhoto}"/>
                 </Grid>
                 
+              <Grid x:Name="picGrid">
+            </Grid>   
 
             
         </StackLayout>

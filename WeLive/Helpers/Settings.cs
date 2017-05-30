@@ -24,9 +24,26 @@ namespace WeLive
 
         const string CookieKey = "cookie";
         static readonly string CookieDefault = string.Empty;
-        #endregion
 
-        public static string Cookie
+        const string BackendUrlKey = "backend_url";
+		public static string BackendUrlDefault = "http://jschen.jinlisting.com";
+
+
+		#endregion
+
+        public static string BackendUrl
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(BackendUrlKey, BackendUrlDefault);
+            }
+            set 
+            {
+                AppSettings.AddOrUpdateValue<string>(BackendUrlKey, value);
+            }
+        }
+
+		public static string Cookie
         {
             get
             {
@@ -55,6 +72,23 @@ namespace WeLive
         {
             UserId = string.Empty;
             Cookie = string.Empty;
+        }
+
+        public static int MaxImageCount { get; set; }
+
+        public static int ImagesPerRow{
+            get
+            {
+                return 3;
+            }
+        }
+
+        public static int PhotosSize
+        {
+            get
+            {
+                return 50;
+            }
         }
     }
 }

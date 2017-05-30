@@ -5,7 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
-
+using System.Diagnostics;
 namespace WeLive
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -13,43 +13,29 @@ namespace WeLive
     public partial class NewItemPage : ContentPage
     {
        
-        public List<Image> listImage = new List<Image>();
-        public List<Button> listButton = new List<Button>();
+        public List<Button> listButton;
         ItemDetailViewModel viewModel;
-       
+        DynamicGrid dynamicGrid;
 		public NewItemPage()
 		{
-            //string a = AppResources.AddButton;
 			InitializeComponent();
             BindingContext = viewModel = new ItemDetailViewModel();
-            InitImageControls();
 		}
+
 
         void InitImageControls()
         {
-			this.listImage.Add(image00);
-			this.listImage.Add(image01);
-			this.listImage.Add(image02);
-			this.listImage.Add(image10);
-			this.listImage.Add(image11);
-			this.listImage.Add(image12);
-			this.listImage.Add(image20);
-			this.listImage.Add(image21);
-			this.listImage.Add(image22);
-
-			this.listButton.Add(btn00);
-			this.listButton.Add(btn01);
-			this.listButton.Add(btn02);
-			this.listButton.Add(btn10);
-			this.listButton.Add(btn11);
-			this.listButton.Add(btn12);
-			this.listButton.Add(btn20);
-			this.listButton.Add(btn21);
-			this.listButton.Add(btn22);
+            dynamicGrid = new DynamicGrid(this.picGrid, viewModel.ImageRows, Settings.ImagesPerRow);
+            listButton = dynamicGrid.InitImageGrid(true ,remove_click, viewModel.PicPaths.ToArray());
         }
 
-         IMedia current = null;
+        IMedia current = null;
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			InitImageControls();
 
+        }
 		async void btnBrowsePhotos_Click()
         {
             if (current == null)
@@ -64,9 +50,10 @@ namespace WeLive
                 await DisplayAlert("", "无法选取图片(Can't pic photos)", "确认(OK)");
 				return;
 			}
-            MediaFile file = await current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+            MediaFile file = await current.PickPhotoAsync(new PickMediaOptions
 			{
-				CustomPhotoSize = 30,				
+                PhotoSize = PhotoSize.Custom,
+                CustomPhotoSize = Settings.PhotosSize,				
 				CompressionQuality = 82
 
 			});
@@ -77,6 +64,7 @@ namespace WeLive
                 string newPath = file.Path.Replace("/temp/","/");
 				System.IO.File.Copy(file.Path, newPath, true);
 				viewModel.AddPicture(newPath);
+                refreshControl();
             }
             		
 		}
@@ -95,11 +83,12 @@ namespace WeLive
                 await DisplayAlert("", "没有拍照设备(No camera available.)", "确认(OK)");
 				return;
 			}
-            MediaFile file = await current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-			{
-				Directory = "Sample",
-				Name = "test.jpg",
-			    CustomPhotoSize = 30,
+            MediaFile file = await current.TakePhotoAsync(new StoreCameraMediaOptions
+            {
+                Directory = "Sample",
+                Name = "test.jpg",
+                PhotoSize = PhotoSize.Custom,
+                CustomPhotoSize = Settings.PhotosSize,
                 AllowCropping=true,
                 CompressionQuality = 82
                   
@@ -107,7 +96,7 @@ namespace WeLive
             if (file != null)
             {
 				viewModel.AddPicture(file.Path);
-
+                refreshControl();
 			}
         }
 
@@ -116,6 +105,18 @@ namespace WeLive
             bool flag = await viewModel.Save();
             if (flag)
             {
+                foreach (string path in viewModel.PicPaths)
+                {
+                    try 
+                    {
+						System.IO.File.Delete(path);
+					}
+                    catch(System.Exception ex)
+                    {
+                        Debug.Write(ex.Message);
+                    }
+                }
+                await DisplayAlert("","保存成功(succeed!)", "确认(OK)");
 				await Navigation.PopToRootAsync();
 			}
         }
@@ -130,7 +131,15 @@ namespace WeLive
                     break;
                 }
             }
+            refreshControl();
         }
+
+        void refreshControl()
+        {
+            this.dynamicGrid.RefreshGrid(viewModel.PicPaths.ToArray());
+            this.btnTakePhoto.IsEnabled = viewModel.CanAddPic;
+            this.btnBrowsePhoto.IsEnabled = viewModel.CanAddPic;
+		}
 
         async void getlocation_click(object sender, EventArgs e)
         {

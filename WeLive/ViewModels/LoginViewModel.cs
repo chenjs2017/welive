@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
-
+using System.Net.Http;
+using System.Net;
 using Xamarin.Forms;
 using WeLive;
+using System;
 namespace WeLive
 {
     public class LoginViewModel : BaseViewModel
@@ -10,7 +12,8 @@ namespace WeLive
 		public LoginViewModel()
 		{
 			SignInCommand = new Command(async () => await SignIn());
-			NotNowCommand = new Command(App.GoToMainPage);
+            NotNowCommand = new Command(() => Device.OpenUri(new Uri(Settings.BackendUrl  + "/wp-login.php?action=register")));
+
 		}
 
         User loginUser = new User();

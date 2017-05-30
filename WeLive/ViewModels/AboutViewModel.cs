@@ -13,14 +13,14 @@ namespace WeLive
     {
         public AboutViewModel()
         {
-            Title = "About";
+            Title = "设置(Settings)";
 
-            OpenWebCommand = new Command(() => Device.OpenUri(new Uri("https://xamarin.com/platform")));
+            OpenWebCommand = new Command(() => Device.OpenUri(new Uri(Settings.BackendUrl)));
+            SignOutCommand = new Command(() => { App.ResetCookieAndSetMainPage();});
         }
 
-        /// <summary>
-        /// Command to open browser to xamarin.com
-        /// </summary>
+  
         public ICommand OpenWebCommand { get; }
+        public ICommand SignOutCommand { get; }
     }
 }

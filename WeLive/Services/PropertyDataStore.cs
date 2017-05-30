@@ -17,29 +17,31 @@ namespace WeLive
     public class PropertyDataStore : BaseDataStore
     {
         
-        List<Property> items;
-
-       
-        public PropertyDataStore()
+        public async Task<IEnumerable<Property>> GetItemsAsync()
         {
-			
-			items = new List<Property>();
-        }
+			List<Property> items = new List<Property>();
 
-       
-
-        public async Task<IEnumerable<Property>> GetItemsAsync(bool forceRefresh = false)
-        {
-            if (forceRefresh && CrossConnectivity.Current.IsConnected)
+			if ( CrossConnectivity.Current.IsConnected)
             {
                 var json = await client.GetStringAsync($"api/properties/get_my_properties/");
+                if (json.Contains("no user"))
+                {
+                    throw new NotLoginException();
+                }
                 JObject root = JObject.Parse(json);
                 var values = root["posts"].Children();
-                items.Clear(); 
-                foreach (JToken result in values)
+
+				foreach (JToken result in values)
                 {
-					Property item = result.ToObject<Property>();
-                    items.Add(item);
+                    try
+                    {
+                        Property item = result.ToObject<Property>();
+                        items.Add(item);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Debug.Write(ex.Message); 
+                    }
                 }
             }
 
@@ -60,13 +62,21 @@ namespace WeLive
         {
             if (item == null || !CrossConnectivity.Current.IsConnected)
                 return null;
-            
-            var serializedItem = JsonConvert.SerializeObject(item);
-            var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync($"api/properties/create_property/", content);
-            var stringContent = await response.Content.ReadAsStringAsync();
-            return stringContent.Trim();
+            try
+            {
+                var serializedItem = JsonConvert.SerializeObject(item);
+                var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync($"api/properties/create_property/", content);
+                var stringContent = await response.Content.ReadAsStringAsync();
+                return stringContent.Trim();
+            }
+            catch (System.Exception ex)
+            {
+                Debug.Write(ex.Message); 
+                return null;
+            }
         }
 
         public async Task<bool> UpdateItemAsync(Property item)
@@ -87,10 +97,17 @@ namespace WeLive
         {
             if (string.IsNullOrEmpty(id) && !CrossConnectivity.Current.IsConnected)
                 return false;
-
-            var response = await client.DeleteAsync($"api/item/{id}");
-
-            return response.IsSuccessStatusCode ? true : false;
+            string url = $"api/properties/del/?post_id=" + id;
+			try 
+            {
+				var json = await client.GetStringAsync(url);
+				return true;
+			}
+            catch (System.Exception ex)
+            {
+                Debug.Write(ex.Message);
+                return false;
+            }
         }
     }
 }

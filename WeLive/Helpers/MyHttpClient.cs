@@ -21,7 +21,7 @@ namespace WeLive
 			handler = new HttpClientHandler();
 			handler.CookieContainer = new CookieContainer();
 			client = new HttpClient(handler);
-			client.BaseAddress = new Uri($"{App.BackendUrl}/");
+			client.BaseAddress = new Uri($"{Settings.BackendUrl}/");
 			SetCookie();
         }
 		private static MyHttpClient instance;

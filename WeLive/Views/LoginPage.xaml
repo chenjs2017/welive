@@ -31,7 +31,7 @@
                 <Label Grid.Row="2" Grid.Column="0" Text="密码(Password)" FontSize="Medium" />
                 <Entry IsPassword="true"  Grid.Row="2" Grid.Column="1"  Text="{Binding LoginUser.password, Mode=TwoWay}" FontSize="Small"  />
             
-			<Button Grid.Row="3" Grid.Column="0" Text="Not Now" Command="{Binding NotNowCommand}" 
+			<Button Grid.Row="3" Grid.Column="0" Text="注册(register)" Command="{Binding NotNowCommand}" 
                 x:Name="ButtonNowNow" HorizontalOptions="FillAndExpand"/>
 			<Button Grid.Row="3" Grid.Column="1" Text="登录(Sign In)" Command="{Binding SignInCommand}" 
                 HorizontalOptions="FillAndExpand"  

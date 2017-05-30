@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="WeLive.AboutPage" xmlns:vm="clr-namespace:WeLive;" Title="{Binding Title}">
 	<ContentPage.BindingContext>
 		<vm:AboutViewModel />
@@ -53,7 +53,9 @@
 						</FormattedString>
 					</Label.FormattedText>
 				</Label>
-				<Button Margin="0,10,0,0" Text="Learn more" Command="{Binding OpenWebCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+                 <Button Margin="0,10,0,0" Text="退出登录（logout)" Command="{Binding SignOutCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+
+				<Button Margin="0,10,0,0" Text="访问主网站(view online)" Command="{Binding OpenWebCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
 			</StackLayout>
 		</ScrollView>
 	</Grid>

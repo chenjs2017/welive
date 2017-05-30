@@ -20,7 +20,8 @@ namespace WeLive
 			handler = new HttpClientHandler();
 			handler.CookieContainer = new CookieContainer();
 			client = new HttpClient(handler);
-			client.BaseAddress = new Uri($"{App.BackendUrl}/");
+            //client.Timeout = new TimeSpan(5000;)
+			client.BaseAddress = new Uri($"{Settings.BackendUrl}/");
 			SetCookie(Settings.Cookie);
         }
 

@@ -12,20 +12,41 @@ namespace WeLive
 {
     public class ItemDetailViewModel : BaseViewModel
     {
-        int maxPictureCount = 9;
+		public Command OpenWebCommand { get; }
 
+	
+		public Property Item { get; set; }
+        public ItemDetailViewModel(Property item = null)
+        {
+            if (item == null)
+            {
+                item = new Property();
+            }
+			Title = item.title;
+			Item = item;
 
-        public bool CanAddPhoto 
-        { 
-            get
-            {
-                return _bufferPath[_bufferPath.Count -1 ] == String.Empty;
-            }
-            set 
-            {
-                OnPropertyChanged();
-            }
+             OpenWebCommand = new Command(() => Device.OpenUri(new Uri(item.url)));
+
         }
+      
+        public async Task<bool> Delete()
+        {
+            try 
+            {
+                bool result = await PropertyDataStore.DeleteItemAsync(Item.id);
+                if (result)
+                {
+					App.DataUptodate = false;
+				}
+                return result;
+            }
+            catch
+            {
+                return false;
+            }
+           
+        }
+
         public async Task<bool> Save()
         {
             if (IsBusy)
@@ -42,7 +63,7 @@ namespace WeLive
                 Message += "\r\n请输入内容（please input content)";
 
 			}
-			if (!HasPics[0])
+            if (_bufferPath.Count == 0)
 			{
                 Message += "\r\n请上传图片（please upload pictures)";
 			}
@@ -55,18 +76,21 @@ namespace WeLive
 
             try
             {
+                Message = "正在连接服务器(connecting)...";
                 string id = await PropertyDataStore.AddItemAsync(Item);
                 int i = 0;
                 foreach (string str in _bufferPath)
                 {
                     if (str == string.Empty)
                         break;
+                    Message = String.Format("上传第{0}张图片(uploading image {0})", i + 1);
                     string attachmentID = await MediaDataStore.UploadImage(str, id, i.ToString());
                     i++;
                 }
+                App.DataUptodate = false;
                 return true;
             }
-            catch(System.Exception ex)
+            catch
             {
                 return false;
             }
@@ -77,111 +101,81 @@ namespace WeLive
             }
 
 		}
-        public Property Item { get; set; }
-        public ItemDetailViewModel(Property item = null)
-        {
-            if (item == null)
-            {
-                item = new Property();
-             
-            }
-            Title = item.title;
-            Item = item;
 
-        }
-
-        List<bool> _hasPics;
-        public List <bool> HasPics
-        {
-            get 
-            {
-                if (_hasPics != null)
-                {
-                    return _hasPics;
-                }
-                _hasPics = new List<bool>();
-                foreach(string path in PicPaths)
-                {
-                    _hasPics.Add(path != string.Empty);
-                }
-                return _hasPics;
-            }
-            set
-            {
-                _hasPics = null;
-                OnPropertyChanged();
-            }
-        }
-
-        List<String> _bufferPath;
+        List<String> _bufferPath = null;
         public List<String> PicPaths
 		{
 			get
 			{
                 if (_bufferPath != null)
-                {
                     return _bufferPath;
-                }
 
-                _bufferPath = new List<String>();
-				
-                if (Item.attachments != null )
-                {
-                    foreach (var att in Item.attachments)
-                    {
-                        if (att.images != null &&
-                            att.images.full != null &&
-                            !string.IsNullOrEmpty(att.images.full.url)
-                            )
-                        {
-                            _bufferPath.Add(att.images.full.url);
-
-                        }
-                    }
-                }
-
-                int count = _bufferPath.Count;
-                for (int i = count; i < maxPictureCount; i++)
+                _bufferPath = new List<string>();  
+                if (Item != null && Item.attachments != null)
 				{
-					_bufferPath.Add(String.Empty);
+					foreach (var att in Item.attachments)
+					{
+						if (att.images != null &&
+							att.images.full != null &&
+							!string.IsNullOrEmpty(att.images.full.url)
+							)
+						{
+							_bufferPath.Add(att.images.full.url);
+						}
+					}
 				}
                 return _bufferPath;
 			}
-            set 
-            {
-                OnPropertyChanged();
-            }
 		}
+
+        public bool CanAddPic
+        {
+            get 
+            {
+				return _bufferPath.Count < Settings.MaxImageCount;
+			}
+        }
+
+        public int ImageRows
+        {
+            get
+            {
+                return (Settings.MaxImageCount - 1) / Settings.ImagesPerRow + 1;
+            }
+        }
 
         public void AddPicture(string path)
         {
-            for (int i = 0; i < _bufferPath.Count; i++)
-            {
-                if (_bufferPath[i] == string.Empty)
-                {
-                    _bufferPath[i] = path;
-                    break;
-                }                
-            }
-			RefreshPrperty();
+            _bufferPath.Add(path);
 
 		}
 
         public void RemovePicture(int index)
         {
-            for (int i = index; i < _bufferPath.Count - 1; i++)
-            {
-                _bufferPath[i] = _bufferPath[i + 1];
-            }
-            _bufferPath[_bufferPath.Count - 1] = string.Empty;
-            RefreshPrperty();
+            _bufferPath.RemoveAt(index);
         }
 
-        void RefreshPrperty()
-        {
-			PicPaths = null;
-			CanAddPhoto = false;
-            HasPics = null;
-        }
+		public bool IsPublished
+		{
+			get
+			{
+				return  Item.status.Equals("publish");
+			}
+		}
+		public bool NotPublished
+		{
+			get
+			{
+				return !IsPublished;
+			}
+		}
+		public string DisplayStatus
+		{
+			get
+			{
+				return IsPublished ? "发布成功(Published)" : "正在审核(Pending)";
+			}
+		}
+
     }
 }

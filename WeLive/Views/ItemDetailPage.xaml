@@ -1,46 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="WeLive.ItemDetailPage" Title="{Binding Title}">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="WeLive.ItemDetailPage" Title="{Binding Title}">
 	<StackLayout Spacing="20" Padding="15">
+        <Label Text="{Binding DisplayStatus}" FontSize="Small" TextColor="Red" />
 		<Label Text="{Binding Item.title}" FontSize="Medium" />
 		<Label Text="{Binding Item.content}" FontSize="Small" />
-        <Grid>
-        <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-              </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-              </Grid.ColumnDefinitions>
-                    <StackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding HasPics[0]}" >
-                        <Image x:Name ="image00" WidthRequest="90" HeightRequest="90" Aspect="AspectFill" Source="{Binding PicPaths[0]}"  />
-                    </StackLayout >
-                      <StackLayout Grid.Row="0" Grid.Column="1" IsVisible="{Binding HasPics[1]}" >
-                        <Image x:Name ="image01" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"  Source="{Binding PicPaths[1]}" />
-                    </StackLayout >  
-                    <StackLayout Grid.Row="0" Grid.Column="2" IsVisible="{Binding HasPics[2]}">
-                        <Image x:Name ="image02" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[2]}"/>
-                    </StackLayout >
-                      <StackLayout Grid.Row="1" Grid.Column="0" IsVisible="{Binding HasPics[3]}" >
-                        <Image x:Name ="image10" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[3]}"/>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="1" Grid.Column="1" IsVisible="{Binding HasPics[4]}">
-                        <Image x:Name ="image11" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[4]}"/>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="1" Grid.Column="2" IsVisible="{Binding HasPics[5]}">
-                        <Image x:Name ="image12" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[5]}"/>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="2" Grid.Column="0" IsVisible="{Binding HasPics[6]}">
-                        <Image x:Name ="image20" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[6]}"/>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="2" Grid.Column="1" IsVisible="{Binding HasPics[7]}">
-                        <Image x:Name ="image21" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[7]}"/>
-                    </StackLayout >  
-                    <StackLayout Grid.Row="2" Grid.Column="2" IsVisible="{Binding HasPics[8]}">
-                        <Image x:Name ="image22" WidthRequest="90" HeightRequest="90" Aspect="AspectFill"   Source="{Binding PicPaths[8]}"/>
-                    </StackLayout >
-                </Grid>
+        <Grid x:Name="picGrid"></Grid>
+        <Button Margin="0,10,0,0" Text="查看在线网页(view online)" Command="{Binding OpenWebCommand}" 
+        BackgroundColor="{StaticResource Primary}" TextColor="White" IsVisible="{Binding IsPublished}"/>
+        <Button Margin="0,10,0,0" Text="删除(Delete)" Clicked="Delete_Clicked" 
+        BackgroundColor="{StaticResource Primary}" TextColor="White" IsVisible="{Binding NotPublished}"/>
+
 	</StackLayout>
 </ContentPage>

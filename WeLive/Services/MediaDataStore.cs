@@ -24,5 +24,12 @@ namespace WeLive
 			var attachmentID = await response.Content.ReadAsStringAsync();
             return attachmentID;
         }
+
+        public async Task<int> GetMaxUploadImageCount()
+        {
+            string url = "api/properties/get_max_image_count";
+            var count = await client.GetStringAsync(url);
+            return System.Int32.Parse(count.Trim().Replace("\"",""));
+        }
     }
 }
