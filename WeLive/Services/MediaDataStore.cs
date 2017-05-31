@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.IO;
 using System.Collections.Generic;
+using Plugin.Connectivity;
+
 namespace WeLive
 {
     public class MediaDataStore:BaseDataStore
@@ -13,6 +15,9 @@ namespace WeLive
         }
         public async Task<string> UploadImage(string path,string postID,string index)
         {
+			if (!CrossConnectivity.Current.IsConnected)
+				throw new Exception(ErrorMessage.NotLogin);
+            
             string url = String.Format("api/properties/uploadImage?post_id={0}&image_index={1}", postID, index);
             var requestContent = new MultipartFormDataContent();
 
@@ -27,6 +32,9 @@ namespace WeLive
 
         public async Task<int> GetMaxUploadImageCount()
         {
+			if (!CrossConnectivity.Current.IsConnected)
+				throw new Exception(ErrorMessage.NotLogin);
+            
             string url = "api/properties/get_max_image_count";
             var count = await client.GetStringAsync(url);
             return System.Int32.Parse(count.Trim().Replace("\"",""));

@@ -13,30 +13,14 @@ namespace WeLive
 {
     public class BaseDataStore
     {
-		protected HttpClient client;
-		protected HttpClientHandler handler;
-        public BaseDataStore()
+		
+		protected HttpClient client
         {
-			handler = new HttpClientHandler();
-			handler.CookieContainer = new CookieContainer();
-			client = new HttpClient(handler);
-            //client.Timeout = new TimeSpan(5000;)
-			client.BaseAddress = new Uri($"{Settings.BackendUrl}/");
-			SetCookie(Settings.Cookie);
-        }
-
-		public void SetCookie(String cookie)
-		{
-            try 
+            get 
             {
-				handler.CookieContainer.SetCookies(client.BaseAddress, cookie);
-
-			}
-            catch(System.Exception ex) 
-            {
-                Debug.Write(ex.Message); 
+                return MyHttpClient.Instance.Client;
             }
-		}
+        }
 
     }
 	

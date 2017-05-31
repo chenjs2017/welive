@@ -18,7 +18,10 @@ namespace WeLive
             SetMainPage();
         }
 
-        public static void SetMainPage()
+		public static int MaxImageCount { get; set; }
+        public static User CurrentUser { get; set; }
+
+		public static void SetMainPage()
         {
 			
             if (Settings.IsLoggedIn)
@@ -36,9 +39,10 @@ namespace WeLive
            
         }
 
-        public static void ResetCookieAndSetMainPage()
+        public static void Reload()
         {
-            DataUptodate = false;   
+            DataUptodate = false;
+            CurrentUser = null;
             Settings.ResetCookie();
             SetMainPage();
         }

@@ -76,7 +76,6 @@ namespace WeLive
             Cookie = string.Empty;
         }
 
-        public static int MaxImageCount { get; set; }
 
         public static int ImagesPerRow{
             get

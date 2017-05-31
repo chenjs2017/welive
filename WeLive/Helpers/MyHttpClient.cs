@@ -16,6 +16,13 @@ namespace WeLive
 		protected HttpClient client;
 		protected HttpClientHandler handler;
 
+        public HttpClient Client 
+        {
+            get 
+            {
+                return client;
+            }
+        }
 		private MyHttpClient()
         {
 			handler = new HttpClientHandler();

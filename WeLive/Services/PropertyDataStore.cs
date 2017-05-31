@@ -16,53 +16,46 @@ namespace WeLive
 {
     public class PropertyDataStore : BaseDataStore
     {
-        
+
         public async Task<IEnumerable<Property>> GetItemsAsync()
         {
+
+            if (!CrossConnectivity.Current.IsConnected)
+                throw new Exception(ErrorMessage.NotLogin);
+
 			List<Property> items = new List<Property>();
 
-			if ( CrossConnectivity.Current.IsConnected)
+			var json = await client.GetStringAsync($"api/properties/get_my_properties/");
+            if (json.Contains("no user"))
             {
-                var json = await client.GetStringAsync($"api/properties/get_my_properties/");
-                if (json.Contains("no user"))
-                {
-                    throw new Exception("notlogin");
-                }
-                JObject root = JObject.Parse(json);
-                var values = root["posts"].Children();
+                throw new Exception("notlogin");
+            }
+            JObject root = JObject.Parse(json);
+            var values = root["posts"].Children();
 
-				foreach (JToken result in values)
+            foreach (JToken result in values)
+            {
+                try
                 {
-                    try
-                    {
-                        Property item = result.ToObject<Property>();
-                        items.Add(item);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Debug.Write(ex.Message); 
-                    }
+                    Property item = result.ToObject<Property>();
+                    items.Add(item);
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.Write(ex.Message);
+                    throw;
                 }
             }
-
             return items;
         }
 
-        public async Task<Property> GetItemAsync(string id)
-        {
-            if (id != null && CrossConnectivity.Current.IsConnected)
-            {
-                var json = await client.GetStringAsync($"api/item/{id}");
-            }
-
-            return null;
-        }
+     
 
         public async Task<string> AddItemAsync(Property item)
         {
-            if (item == null || !CrossConnectivity.Current.IsConnected)
-                return null;
-
+            if (!CrossConnectivity.Current.IsConnected)
+                throw new Exception (ErrorMessage.NotLogin);
+            
             try
             {
                 var serializedItem = JsonConvert.SerializeObject(item);
@@ -74,30 +67,17 @@ namespace WeLive
             }
             catch (System.Exception ex)
             {
-                Debug.Write(ex.Message); 
-                return null;
+                Debug.Write(ex.Message);
+                throw;
             }
         }
 
-        public async Task<bool> UpdateItemAsync(Property item)
+       public async Task<bool> DeleteItemAsync(string id)
         {
-            if (item == null || item.id  == null || !CrossConnectivity.Current.IsConnected)
-                return false;
-
-            var serializedItem = JsonConvert.SerializeObject(item);
-            var buffer = System.Text.Encoding.UTF8.GetBytes(serializedItem);
-            var byteContent = new ByteArrayContent(buffer);
-
-            var response = await client.PutAsync(new Uri($"api/item/{item.id}"), byteContent);
-
-            return response.IsSuccessStatusCode ? true : false;
-        }
-
-        public async Task<bool> DeleteItemAsync(string id)
-        {
-            if (string.IsNullOrEmpty(id) && !CrossConnectivity.Current.IsConnected)
-                return false;
-            string url = $"api/properties/del/?post_id=" + id;
+            if (!CrossConnectivity.Current.IsConnected)
+				throw new Exception(ErrorMessage.NotLogin);
+            
+			string url = $"api/properties/del/?post_id=" + id;
 			try 
             {
 				var json = await client.GetStringAsync(url);
@@ -106,7 +86,7 @@ namespace WeLive
             catch (System.Exception ex)
             {
                 Debug.Write(ex.Message);
-                return false;
+                throw;
             }
         }
     }

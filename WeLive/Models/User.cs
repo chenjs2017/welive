@@ -10,5 +10,6 @@ namespace WeLive
         public string password { get; set; }	
         public string address { get; set; }
         public string phone { get; set; }
+        public string nickname { get; set; }
     }
 }

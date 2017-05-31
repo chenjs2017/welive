@@ -132,7 +132,7 @@ namespace WeLive
         {
             get 
             {
-				return _bufferPath.Count < Settings.MaxImageCount;
+                return _bufferPath.Count < App.MaxImageCount;
 			}
         }
 
@@ -140,7 +140,7 @@ namespace WeLive
         {
             get
             {
-                return (Settings.MaxImageCount - 1) / Settings.ImagesPerRow + 1;
+                return (App.MaxImageCount - 1) / Settings.ImagesPerRow + 1;
             }
         }
 

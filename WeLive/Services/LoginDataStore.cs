@@ -21,14 +21,45 @@ namespace WeLive
                 throw new Exception(ErrorMessage.NetworkIssue); 
             }
 
-            string url = String.Format("api/user/generate_auth_cookie/?insecure=cool&username={0}&password={1}", username, password);
+            string url = String.Format("api/properties/generate_auth_cookie/?username={0}&password={1}", username, password);
             var json = await client.GetStringAsync(url);
             if (json.Contains("error"))
             {
                 throw new Exception(ErrorMessage.LoginFail); 
             }
             return await Task.Run(() => JsonConvert.DeserializeObject<Cookie>(json));
-			
 		}
+
+		public async Task<User> GetCurrentUser()
+		{
+			if (!CrossConnectivity.Current.IsConnected)
+			{
+				throw new Exception(ErrorMessage.NetworkIssue);
+			}
+
+            string url = String.Format("api/properties/get_userinfo/");
+			var json = await client.GetStringAsync(url);
+			if (json.Contains("error"))
+			{
+				throw new Exception(ErrorMessage.LoginFail);
+			}
+			return await Task.Run(() => JsonConvert.DeserializeObject<User>(json));
+		}
+
+        public async Task<bool> SaveCurrentUser(User user)
+        {
+			if (!CrossConnectivity.Current.IsConnected)
+			{
+				throw new Exception(ErrorMessage.NetworkIssue);
+			}
+
+			var serializedItem = JsonConvert.SerializeObject(user);
+			var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
+
+			var response = await client.PostAsync($"api/properties/save_userinfo/", content);
+			var stringContent = await response.Content.ReadAsStringAsync();
+
+            return true;
+        }
     }
 }

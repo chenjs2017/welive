@@ -40,10 +40,14 @@ namespace WeLive
 
                 Items.ReplaceRange(items);
                 App.DataUptodate = true;
-                if (Settings.MaxImageCount == 0)
+                if (App.MaxImageCount == 0)
 				{
-					Settings.MaxImageCount = await TheMediaDataStore.GetMaxUploadImageCount();
+					App.MaxImageCount = await TheMediaDataStore.GetMaxUploadImageCount();
 				}
+                if (App.CurrentUser == null )
+                {
+                    App.CurrentUser = await TheLoginDataStore.GetCurrentUser();
+                }
             }
         
             catch (Exception ex)
@@ -51,7 +55,7 @@ namespace WeLive
 
                 if (ex.Message == ErrorMessage.NotLogin)
                 {
-                    App.ResetCookieAndSetMainPage();
+                    App.Reload();
                 }
                 else
                 {
