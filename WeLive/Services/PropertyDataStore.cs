@@ -27,8 +27,13 @@ namespace WeLive
 			var json = await client.GetStringAsync($"api/properties/get_my_properties/?count=50");
             if (json.Contains("no user"))
             {
-                throw new Exception("notlogin");
+                throw new Exception(ErrorMessage.NotLogin);
+            } 
+            else if (json.Contains("error"))
+            {
+                throw new Exception(ErrorMessage.ServerReturnError);
             }
+
             JObject root = JObject.Parse(json);
             var values = root["posts"].Children();
 
@@ -42,7 +47,7 @@ namespace WeLive
                 catch (System.Exception ex)
                 {
                     Debug.Write(ex.Message);
-                    throw;
+                    throw new Exception(ErrorMessage.DecodeEorror) ;
                 }
             }
             return items;
@@ -55,38 +60,33 @@ namespace WeLive
             if (!CrossConnectivity.Current.IsConnected)
                 throw new Exception (ErrorMessage.NotLogin);
             
-            try
-            {
-                var serializedItem = JsonConvert.SerializeObject(item);
-                var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
+   
+            var serializedItem = JsonConvert.SerializeObject(item);
+            var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"api/properties/create_property/", content);
-                var stringContent = await response.Content.ReadAsStringAsync();
-                return stringContent.Trim();
-            }
-            catch (System.Exception ex)
-            {
-                Debug.Write(ex.Message);
-                throw;
-            }
+            var response = await client.PostAsync($"api/properties/create_property/", content);
+            var stringContent = await response.Content.ReadAsStringAsync();
+			if (stringContent.Contains("error"))
+			{
+				throw new Exception(ErrorMessage.ServerReturnError);
+			}
+            return stringContent.Trim();
+     
         }
 
-       public async Task<bool> DeleteItemAsync(string id)
+        public async Task DeleteItemAsync(string id)
         {
             if (!CrossConnectivity.Current.IsConnected)
-				throw new Exception(ErrorMessage.NotLogin);
-            
-			string url = $"api/properties/del/?post_id=" + id;
-			try 
+                throw new Exception(ErrorMessage.NotLogin);
+
+            string url = $"api/properties/del/?post_id=" + id;
+
+            var json = await client.GetStringAsync(url);
+            if (json.Contains("error"))
             {
-				var json = await client.GetStringAsync(url);
-				return true;
-			}
-            catch (System.Exception ex)
-            {
-                Debug.Write(ex.Message);
-                throw;
+                throw new Exception(ErrorMessage.ServerReturnError);
             }
+
         }
     }
 }

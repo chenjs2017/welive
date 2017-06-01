@@ -29,9 +29,9 @@ namespace WeLive
         }
 
 
-        public async Task<bool> SaveCurrentUserInfo()
+        public async Task SaveCurrentUserInfo()
         {
-            return await TheLoginDataStore.SaveCurrentUser(CurrentUser); 
+            await TheLoginDataStore.SaveCurrentUser(CurrentUser); 
         }
   
         public ICommand OpenWebCommand { get; }

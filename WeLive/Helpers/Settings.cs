@@ -88,7 +88,7 @@ namespace WeLive
         {
             get
             {
-                return 60;
+                return 30;
             }
         }
 
@@ -104,6 +104,14 @@ namespace WeLive
             get
             {
                 return 100;
+            }
+        }
+
+        public static string ImageDirectory
+        {
+            get 
+            {
+                return "Sample";
             }
         }
     }

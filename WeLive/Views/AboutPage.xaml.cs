@@ -39,11 +39,15 @@ namespace WeLive
         {
             viewModel.CurrentUser.phone = txtPhone.Text;
             viewModel.CurrentUser.address = txtAddress.Text;
-            bool result = await viewModel.SaveCurrentUserInfo();
-            if (result)
+            try
             {
-                await DisplayAlert("","保存成功(Save succeed!)","确定(OK)");
+                await viewModel.SaveCurrentUserInfo();
+                await DisplayAlert("", "保存成功(Save succeed!)", "确定(OK)");
             }
+            catch (System.Exception ex)
+            {
+                await DisplayAlert("",ErrorMessage.GetMessage(ex.Message), "确定(OK)");
+			}
         }
     }
 }

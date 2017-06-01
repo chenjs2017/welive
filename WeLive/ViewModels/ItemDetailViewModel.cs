@@ -32,19 +32,9 @@ namespace WeLive
 
         }
         
-        public async Task<bool> Delete()
+        public async Task Delete()
         {
-            try 
-            {
-                bool result = await ThePropertyDataStore.DeleteItemAsync(Item.id);
-            
-                return result;
-            }
-            catch
-            {
-                return false;
-            }
-           
+            await ThePropertyDataStore.DeleteItemAsync(Item.id);
         }
 
         public async Task<bool> Save()
@@ -106,8 +96,7 @@ namespace WeLive
             }
             catch(System.Exception ex)
             {
-                Debug.WriteLine(ex);
-                Message = ex.Message;
+                Message = ErrorMessage.GetMessage(ex.Message);
                 IsBusy = false;
                 return false;
             }

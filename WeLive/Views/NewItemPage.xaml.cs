@@ -6,6 +6,7 @@ using Xamarin.Forms.Xaml;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System.Diagnostics;
+using System.IO;
 namespace WeLive
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -37,8 +38,20 @@ namespace WeLive
             {
                 InitImageControls();
             }
-			
-
+			var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var path = Path.Combine(documents, Settings.ImageDirectory);
+            DirectoryInfo dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (FileInfo file in dir.GetFiles())
+                {
+                    file.Delete();
+                }
+            }
+            else
+            {
+                dir.Create(); 
+            }
         }
 		async void btnBrowsePhotos_Click()
         {
@@ -48,7 +61,6 @@ namespace WeLive
                 current = CrossMedia.Current;
             }
 
-
             if (!current.IsPickPhotoSupported)
 			{
                 await DisplayAlert("", "无法选取图片(Can't pic photos)", "确认(OK)");
@@ -56,6 +68,8 @@ namespace WeLive
 			}
             MediaFile file = await current.PickPhotoAsync(new PickMediaOptions
 			{
+                
+
                 PhotoSize = PhotoSize.Custom,
                 CustomPhotoSize = Settings.PhotosSize,				
                 CompressionQuality = Settings.Qulity
@@ -64,8 +78,10 @@ namespace WeLive
             //copy file from temp to sample
             if (file != null)
             {
-                
-                string newPath = file.Path.Replace("/temp/","/");
+                string newPath = Path.GetDirectoryName(file.Path);
+                newPath = newPath.Replace("/temp", "/" + Settings.ImageDirectory +"/");
+                newPath += Guid.NewGuid().ToString();
+                newPath += Path.GetExtension(file.Path);
 				System.IO.File.Copy(file.Path, newPath, true);
 				viewModel.AddPicture(newPath);
                 refreshControl();
@@ -89,8 +105,8 @@ namespace WeLive
 			}
             MediaFile file = await current.TakePhotoAsync(new StoreCameraMediaOptions
             {
-                Directory = "Sample",
-                Name = "test.jpg",
+                Directory = Settings.ImageDirectory,
+                Name =Guid.NewGuid().ToString() + ".jpg",
                 PhotoSize = PhotoSize.Custom,
                 CustomPhotoSize = Settings.PhotosSize,
                 CompressionQuality = Settings.Qulity
@@ -108,17 +124,6 @@ namespace WeLive
             bool flag = await viewModel.Save();
             if (flag)
             {
-                foreach (string path in viewModel.PicPaths)
-                {
-                    try 
-                    {
-						System.IO.File.Delete(path);
-					}
-                    catch(System.Exception ex)
-                    {
-                        Debug.Write(ex.Message);
-                    }
-                }
                 MessagingCenter.Send(this, "AddItem", viewModel.Item);
 				await DisplayAlert("","保存成功(succeed!)", "确认(OK)");
 				await Navigation.PopToRootAsync();

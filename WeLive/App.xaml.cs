@@ -46,6 +46,9 @@ namespace WeLive
 
         public static void GoToMainPage()
         {
+
+			
+
             Current.MainPage = new TabbedPage
             {
                 Children = {

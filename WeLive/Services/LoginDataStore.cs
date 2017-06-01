@@ -41,12 +41,12 @@ namespace WeLive
 			var json = await client.GetStringAsync(url);
 			if (json.Contains("error"))
 			{
-				throw new Exception(ErrorMessage.LoginFail);
+                throw new Exception(ErrorMessage.ServerReturnError);
 			}
 			return await Task.Run(() => JsonConvert.DeserializeObject<User>(json));
 		}
 
-        public async Task<bool> SaveCurrentUser(User user)
+        public async Task SaveCurrentUser(User user)
         {
 			if (!CrossConnectivity.Current.IsConnected)
 			{
@@ -58,8 +58,10 @@ namespace WeLive
 
 			var response = await client.PostAsync($"api/properties/save_userinfo/", content);
 			var stringContent = await response.Content.ReadAsStringAsync();
-
-            return true;
+			if (stringContent.Contains("error"))
+			{
+				throw new Exception(ErrorMessage.ServerReturnError);
+			}
         }
     }
 }

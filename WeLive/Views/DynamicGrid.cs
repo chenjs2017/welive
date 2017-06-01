@@ -58,7 +58,7 @@ namespace WeLive
 					int imgIndex = i * _colCount + j;
 					if (imgPath != null && imgIndex < imgPath.Length)
 					{
-                        img.Source = imgPath[i];
+                        img.Source = imgPath[imgIndex];
                         stack.IsVisible = true;
 					}
                     else 

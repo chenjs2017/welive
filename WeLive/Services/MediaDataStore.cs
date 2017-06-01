@@ -24,9 +24,13 @@ namespace WeLive
             var ImageDate = File.ReadAllBytes(path);
 			var imageContent = new ByteArrayContent(ImageDate);
 			imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
-			requestContent.Add(imageContent, "attachment", Guid.NewGuid().ToString() + ".jpg");
+            requestContent.Add(imageContent, "attachment", System.IO.Path.GetFileName(path));
             var response = await client.PostAsync(url , requestContent);
 			var attchmentUrl = await response.Content.ReadAsStringAsync();
+			if (attchmentUrl.Contains("error"))
+			{
+				throw new Exception(ErrorMessage.ServerReturnError);
+			}
             attchmentUrl = attchmentUrl.Trim();
             attchmentUrl = attchmentUrl.Replace("\\/","/").Replace("\"","");
             return attchmentUrl;
@@ -39,6 +43,10 @@ namespace WeLive
             
             string url = "api/properties/get_max_image_count";
             var count = await client.GetStringAsync(url);
+			if (count.Contains("error"))
+			{
+				throw new Exception(ErrorMessage.ServerReturnError);
+			}
             return System.Int32.Parse(count.Trim().Replace("\"",""));
         }
     }
