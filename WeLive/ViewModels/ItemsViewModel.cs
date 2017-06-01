@@ -12,34 +12,36 @@ namespace WeLive
 
 		public Command LoadItemsCommand { get; set; }
 
-		public ItemsViewModel()
+        public ItemsViewModel()
         {
             Title = "列表(Browse)";
             Items = new ObservableRangeCollection<Property>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            LoadItemsCommand = new Command(async () => {Items.Clear(); await ExecuteLoadItemsCommand(); });
 
-            MessagingCenter.Subscribe<NewItemPage, Property>(this, "AddItem", async (obj, item) =>
-            {
-                var _item = item as Property;
-                Items.Add(_item);
-                await ThePropertyDataStore.AddItemAsync(_item);
-            });
+            MessagingCenter.Subscribe<NewItemPage, Property>(this, "AddItem", (obj, item) =>
+           {
+			   var _item = item as Property;
+                Items.Insert(0 ,_item);
+           });
+
+            MessagingCenter.Subscribe<ItemDetailPage, Property>(this, "DeleteItem", (obj, item) =>
+             {
+                 var _item = item as Property;
+                 Items.Remove(_item);
+             });
         }
 
-        async Task ExecuteLoadItemsCommand()
+        public async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy || App.DataUptodate)
+            if (IsBusy || (Items.Count > 0))
                 return;
 
             IsBusy = true;
-
             try
             {
-                Items.Clear();
                 var items = await ThePropertyDataStore.GetItemsAsync();
 
                 Items.ReplaceRange(items);
-                App.DataUptodate = true;
                 if (App.MaxImageCount == 0)
 				{
 					App.MaxImageCount = await TheMediaDataStore.GetMaxUploadImageCount();
@@ -52,7 +54,6 @@ namespace WeLive
         
             catch (Exception ex)
             {
-
                 if (ex.Message == ErrorMessage.NotLogin)
                 {
                     App.Reload();

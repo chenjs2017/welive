@@ -28,7 +28,7 @@
 			<Label Text="描述、联系电话(Content,phone number)"  />
                 
 			<Editor Text="{Binding Item.content, Mode=TwoWay}" FontSize="Small" HeightRequest="90"  />
-            <Button Clicked="getlocation_click" Text="获取或输入地址(Get/input Location)" AnchorX="0"></Button>
+            <Label Text="地址(Address)"  />
             <Entry Text="{Binding Item.address, Mode=TwoWay}" FontSize="Small" Margin="1" />
                 
            

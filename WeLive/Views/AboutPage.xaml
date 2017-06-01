@@ -10,7 +10,8 @@
 			<StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="10" >
             <Label Text="用户名(UserName)"  />
             <Label Text="" FontSize="Small" x:Name="lblUserName"/>
-
+            <Label Text="电子邮件(Email)"  />
+            <Label Text="" FontSize="Small" x:Name="lblEmail"/>
             
             <Label Text="电话(phone number)"  />
             <Entry x:Name ="txtPhone" FontSize="Small" />

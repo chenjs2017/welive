@@ -14,7 +14,6 @@ namespace WeLive
         public ItemsPage()
         {
             InitializeComponent();
-
             BindingContext = viewModel = new ItemsViewModel();
         }
 
@@ -35,10 +34,10 @@ namespace WeLive
             await Navigation.PushAsync(new NewItemPage());
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            viewModel.LoadItemsCommand.Execute(null);
+            await viewModel.ExecuteLoadItemsCommand();
         }
     }
 }

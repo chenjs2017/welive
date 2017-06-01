@@ -9,12 +9,10 @@ namespace WeLive
 {
     public partial class App : Application
     {
-        public static bool DataUptodate { get; set; }
 
         public App()
         {
             InitializeComponent();
-            App.DataUptodate = false;
             SetMainPage();
         }
 
@@ -41,7 +39,6 @@ namespace WeLive
 
         public static void Reload()
         {
-            DataUptodate = false;
             CurrentUser = null;
             Settings.ResetCookie();
             SetMainPage();

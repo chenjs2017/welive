@@ -26,8 +26,10 @@ namespace WeLive
 			imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
 			requestContent.Add(imageContent, "attachment", Guid.NewGuid().ToString() + ".jpg");
             var response = await client.PostAsync(url , requestContent);
-			var attachmentID = await response.Content.ReadAsStringAsync();
-            return attachmentID;
+			var attchmentUrl = await response.Content.ReadAsStringAsync();
+            attchmentUrl = attchmentUrl.Trim();
+            attchmentUrl = attchmentUrl.Replace("\\/","/").Replace("\"","");
+            return attchmentUrl;
         }
 
         public async Task<int> GetMaxUploadImageCount()

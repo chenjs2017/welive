@@ -16,7 +16,7 @@ namespace WeLive
 
             BindingContext = this.viewModel = viewModel;
             DynamicGrid dynamicGrid = new DynamicGrid(this.picGrid, viewModel.ImageRows, Settings.ImagesPerRow);
-            dynamicGrid.InitImageGrid(false, null, viewModel.PicPaths.ToArray());
+            dynamicGrid.InitImageGrid(false, null, viewModel.PicPaths.ToArray(),Navigation);
         }
 
         async void Delete_Clicked(object sender, System.EventArgs e)
@@ -24,7 +24,8 @@ namespace WeLive
             bool result = await viewModel.Delete();
             if (result)
             {
-                await DisplayAlert("","删除成功(succeed!)","确认(OK)");
+				MessagingCenter.Send(this, "DeleteItem", viewModel.Item);
+				await DisplayAlert("","删除成功(succeed!)","确认(OK)");
 				await Navigation.PopToRootAsync();
 			}
 

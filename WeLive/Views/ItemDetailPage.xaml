@@ -4,6 +4,8 @@
 	<StackLayout Spacing="20" Padding="15">
         <Label Text="{Binding DisplayStatus}" FontSize="Small" TextColor="Red" />
 		<Label Text="{Binding Item.title}" FontSize="Medium" />
+        <Label Text="{Binding Item.address}" FontSize="Small" />
+
 		<Label Text="{Binding Item.content}" FontSize="Small" />
         <Grid x:Name="picGrid"></Grid>
         <Button Margin="0,10,0,0" Text="查看在线网页(view online)" Command="{Binding OpenWebCommand}" 

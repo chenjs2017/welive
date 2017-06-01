@@ -16,13 +16,13 @@ namespace WeLive
 
 	public class ThumbnailImage
 	{
-		public URL thumbnail { get; set; }
+		public ImageInfo thumbnail { get; set; }
 	}
 	public class PropertyImage
 	{
-		public URL full { get; set; }
+		public ImageInfo full { get; set; }
 	}
-	public class URL
+	public class ImageInfo
 	{
 		public string url { get; set; }
 	}
@@ -33,8 +33,27 @@ namespace WeLive
 		public string title { get; set; }
 		public string status { get; set; }
 		public string url { get; set; }
+        string _address;
+        public string address 
+        { 
+            get
+            {
+                if (string.IsNullOrEmpty(_address) &&
+                    custom_fields != null &&
+                    custom_fields.webbupointfinder_items_address != null &&
+                    custom_fields.webbupointfinder_items_address.Length > 0)
+                {
+                    _address = custom_fields.webbupointfinder_items_address[0];
+                }
+                return _address;
+            }
+            set
+            {
+                _address = value;    
+            }
+        }
 
-		string _content = "";
+		string _content ;
 		public string content
 		{
 			get

@@ -31,7 +31,8 @@ namespace WeLive
            
             txtPhone.Text = viewModel.CurrentUser.phone;
             txtAddress.Text = viewModel.CurrentUser.address;
-            lblUserName.Text = viewModel.CurrentUser.nickname;
+            lblUserName.Text = viewModel.CurrentUser.username;
+            lblEmail.Text = viewModel.CurrentUser.email;
 		}
 
         async void Save_Clicked(object sender, System.EventArgs e)

@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
-
+using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace WeLive
 {
     public class ItemDetailViewModel : BaseViewModel
     {
-		public Command OpenWebCommand { get; }
-
+        public Command OpenWebCommand { get; }
+    
 	
 		public Property Item { get; set; }
         public ItemDetailViewModel(Property item = null)
@@ -21,6 +21,9 @@ namespace WeLive
             if (item == null)
             {
                 item = new Property();
+                item.address = App.CurrentUser.address;
+                item.title = "";
+                item.content = "";
             }
 			Title = item.title;
 			Item = item;
@@ -28,16 +31,13 @@ namespace WeLive
              OpenWebCommand = new Command(() => Device.OpenUri(new Uri(item.url)));
 
         }
-      
+        
         public async Task<bool> Delete()
         {
             try 
             {
                 bool result = await ThePropertyDataStore.DeleteItemAsync(Item.id);
-                if (result)
-                {
-					App.DataUptodate = false;
-				}
+            
                 return result;
             }
             catch
@@ -56,17 +56,21 @@ namespace WeLive
             Message = string.Empty;
 			if (String.IsNullOrEmpty(Item.title))
 			{
-                Message += "请输入标题（please input title)";
+                Message += "请输入标题(please input title)";
 			}
 			if (String.IsNullOrEmpty(Item.content))
 			{
-                Message += "\r\n请输入内容（please input content)";
+                Message += "\r\n请输入内容(please input content)";
 
 			}
             if (_bufferPath.Count == 0)
 			{
-                Message += "\r\n请上传图片（please upload pictures)";
+                Message += "\r\n请上传图片(please upload pictures)";
 			}
+            if (String.IsNullOrEmpty(Item.address))
+            {
+                Message += "\r\n请输入地址(please input address)";
+            }
 
             if (!string.IsNullOrEmpty(Message))
             {
@@ -79,19 +83,32 @@ namespace WeLive
                 Message = "正在连接服务器(connecting)...";
                 string id = await ThePropertyDataStore.AddItemAsync(Item);
                 int i = 0;
+                Item.attachments = new List<Attachment>();
                 foreach (string str in _bufferPath)
                 {
                     if (str == string.Empty)
                         break;
                     Message = String.Format("上传第{0}张图片(uploading image {0})", i + 1);
-                    string attachmentID = await TheMediaDataStore.UploadImage(str, id, i.ToString());
+                    string url = await TheMediaDataStore.UploadImage(str, id, i.ToString());
+                    Attachment att = new Attachment();
+                    att.images = new PropertyImage();
+                    att.images.full = new ImageInfo();
+                    att.images.full.url = url;
+                    Item.attachments.Add(att);
                     i++;
                 }
-                App.DataUptodate = false;
+                if (Item.address.Trim() != App.CurrentUser.address.Trim())
+                {
+                    App.CurrentUser.address = Item.address.Trim();
+                    await TheLoginDataStore.SaveCurrentUser(App.CurrentUser);
+                }
                 return true;
             }
-            catch
+            catch(System.Exception ex)
             {
+                Debug.WriteLine(ex);
+                Message = ex.Message;
+                IsBusy = false;
                 return false;
             }
             finally
@@ -159,7 +176,8 @@ namespace WeLive
 		{
 			get
 			{
-				return  Item.status.Equals("publish");
+                return Item.status == "publish"; 
+                    
 			}
 		}
 		public bool NotPublished
@@ -176,6 +194,5 @@ namespace WeLive
 				return IsPublished ? "发布成功(Published)" : "正在审核(Pending)";
 			}
 		}
-
     }
 }

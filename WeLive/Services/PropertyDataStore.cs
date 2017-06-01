@@ -22,10 +22,9 @@ namespace WeLive
 
             if (!CrossConnectivity.Current.IsConnected)
                 throw new Exception(ErrorMessage.NotLogin);
-
 			List<Property> items = new List<Property>();
 
-			var json = await client.GetStringAsync($"api/properties/get_my_properties/");
+			var json = await client.GetStringAsync($"api/properties/get_my_properties/?count=50");
             if (json.Contains("no user"))
             {
                 throw new Exception("notlogin");

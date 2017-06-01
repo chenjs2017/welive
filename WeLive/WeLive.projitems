@@ -44,8 +44,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Cookie.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MyHttpClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MediaDataStore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DynamicGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ErrorMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CarouselView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DynamicGrid.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml" />

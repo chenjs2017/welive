@@ -26,14 +26,18 @@ namespace WeLive
         void InitImageControls()
         {
             dynamicGrid = new DynamicGrid(this.picGrid, viewModel.ImageRows, Settings.ImagesPerRow);
-            listButton = dynamicGrid.InitImageGrid(true ,remove_click, viewModel.PicPaths.ToArray());
+            listButton = dynamicGrid.InitImageGrid(true ,remove_click, viewModel.PicPaths.ToArray(),Navigation);
         }
 
         IMedia current = null;
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			InitImageControls();
+            if (dynamicGrid==null)
+            {
+                InitImageControls();
+            }
+			
 
         }
 		async void btnBrowsePhotos_Click()
@@ -54,7 +58,7 @@ namespace WeLive
 			{
                 PhotoSize = PhotoSize.Custom,
                 CustomPhotoSize = Settings.PhotosSize,				
-				CompressionQuality = 82
+                CompressionQuality = Settings.Qulity
 
 			});
             //copy file from temp to sample
@@ -89,8 +93,7 @@ namespace WeLive
                 Name = "test.jpg",
                 PhotoSize = PhotoSize.Custom,
                 CustomPhotoSize = Settings.PhotosSize,
-                AllowCropping=true,
-                CompressionQuality = 82
+                CompressionQuality = Settings.Qulity
                   
 			});
             if (file != null)
@@ -116,7 +119,8 @@ namespace WeLive
                         Debug.Write(ex.Message);
                     }
                 }
-                await DisplayAlert("","保存成功(succeed!)", "确认(OK)");
+                MessagingCenter.Send(this, "AddItem", viewModel.Item);
+				await DisplayAlert("","保存成功(succeed!)", "确认(OK)");
 				await Navigation.PopToRootAsync();
 			}
         }
@@ -140,13 +144,5 @@ namespace WeLive
             this.btnTakePhoto.IsEnabled = viewModel.CanAddPic;
             this.btnBrowsePhoto.IsEnabled = viewModel.CanAddPic;
 		}
-
-        async void getlocation_click(object sender, EventArgs e)
-        {
-            
-            
-        }
-
-
    }
 }

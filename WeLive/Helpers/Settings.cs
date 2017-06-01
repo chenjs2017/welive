@@ -88,7 +88,22 @@ namespace WeLive
         {
             get
             {
-                return 50;
+                return 60;
+            }
+        }
+
+        public static int Qulity
+        {
+            get 
+            {
+                return 82;
+            }
+        }
+        public static int MaxItemsPerPage
+        {
+            get
+            {
+                return 100;
             }
         }
     }
