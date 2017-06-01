@@ -26,7 +26,7 @@ namespace WeLive
         static readonly string CookieDefault = string.Empty;
 
         const string BackendUrlKey = "backend_url";
-		public static string BackendUrlDefault = "http://jschen.jinlisting.com";
+		public static string BackendUrlDefault = "http://www.jinlisting.com";
 
 
 		#endregion

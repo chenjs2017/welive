@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDisplayName</key>
-	<string>WeLive</string>
-	<key>CFBundleName</key>
-	<string>WeLive</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -46,20 +42,11 @@
 	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>jschen.WeLive</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>MKDirectionsRequest</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.apple.maps.directionsrequest</string>
-			</array>
-		</dict>
-	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>New Entry</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>New Entry</string>
+	<key>CFBundleName</key>
+	<string>生活资讯</string>
 </dict>
 </plist>

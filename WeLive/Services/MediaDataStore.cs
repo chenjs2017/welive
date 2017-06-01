@@ -27,10 +27,8 @@ namespace WeLive
             requestContent.Add(imageContent, "attachment", System.IO.Path.GetFileName(path));
             var response = await client.PostAsync(url , requestContent);
 			var attchmentUrl = await response.Content.ReadAsStringAsync();
-			if (attchmentUrl.StartsWith("error:", StringComparison.CurrentCulture))
-			{
-				throw new Exception(ErrorMessage.ServerReturnError);
-			}
+			
+            ErrorMessage.CheckRespond(attchmentUrl);
             attchmentUrl = attchmentUrl.Trim();
             attchmentUrl = attchmentUrl.Replace("\\/","/").Replace("\"","");
             return attchmentUrl;
@@ -43,10 +41,7 @@ namespace WeLive
             
             string url = "api/properties/get_max_image_count";
             var count = await client.GetStringAsync(url);
-            if (count.StartsWith("error:", StringComparison.CurrentCulture))
-			{
-				throw new Exception(ErrorMessage.ServerReturnError);
-			}
+            ErrorMessage.CheckRespond(url);
             return System.Int32.Parse(count.Trim().Replace("\"",""));
         }
     }

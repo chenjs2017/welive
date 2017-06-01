@@ -9,7 +9,7 @@ namespace WeLive
 		public const string NetworkIssue = "network";
 		public const string LoginFail = "logfail";
         public const string NotLogin = "nologin";
-        public const string ServerReturnError = "servererror";
+        public const string ServerReturnError = "error";
         public const string DecodeEorror = "decodeerror";
 
         public static string GetMessage(string messageCode)
@@ -35,6 +35,22 @@ namespace WeLive
 				return "解析服务器信息失败，请稍后再试（Decode Error, Please try again later）";
 			}
             return messageCode;
+        }
+
+        public static bool ErrorContainCode(string respond, string err)
+        {
+            return respond.Trim().Replace("\"", "").StartsWith(err,StringComparison.CurrentCulture); 
+        }
+        public static void CheckRespond(string respond)
+        {
+            if (ErrorContainCode(respond,ErrorMessage.NotLogin))
+            {
+                throw new Exception(ErrorMessage.NotLogin) ;
+            }
+            else if (ErrorContainCode(respond,ErrorMessage.ServerReturnError))
+            {
+                throw new Exception(ErrorMessage.ServerReturnError);
+            }
         }
     }
 }

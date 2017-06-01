@@ -33,18 +33,23 @@ namespace WeLive
                 IsBusy = true;
                 Message = "登录中...(Signing In...)";
 
-                // Log the user in
-                var cookie = await TheLoginDataStore.DoLogin(loginUser.username, loginUser.password);
-                if (cookie != null)
+                if (string.IsNullOrEmpty(loginUser.username) || string.IsNullOrEmpty(loginUser.password))
                 {
-                    Settings.Cookie = cookie.cookie_name + "=" + cookie.cookie;
-                    Settings.UserId = cookie.user.id;
-                    MyHttpClient.Instance.SetCookie();
-                    App.GoToMainPage();
+                    Message = "请输入用户名／口令(Please input username/password)";
                 }
-
+                else
+                {
+                    // Log the user in
+                    var cookie = await TheLoginDataStore.DoLogin(loginUser.username, loginUser.password);
+                    if (cookie != null)
+                    {
+                        Settings.Cookie = cookie.cookie_name + "=" + cookie.cookie;
+                        Settings.UserId = cookie.user.id;
+                        MyHttpClient.Instance.SetCookie();
+                        App.GoToMainPage();
+                    }
+                }
             }
-
             catch (Exception ex)
             {
                 Message = ErrorMessage.GetMessage(ex.Message);

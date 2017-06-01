@@ -25,14 +25,7 @@ namespace WeLive
 			List<Property> items = new List<Property>();
 
 			var json = await client.GetStringAsync($"api/properties/get_my_properties/?count=50");
-            if (json.Contains("no user"))
-            {
-                throw new Exception(ErrorMessage.NotLogin);
-            } 
-            else if (json.StartsWith("error", StringComparison.CurrentCulture))
-            {
-                throw new Exception(ErrorMessage.ServerReturnError);
-            }
+            ErrorMessage.CheckRespond(json);
 
             JObject root = JObject.Parse(json);
             var values = root["posts"].Children();
@@ -66,10 +59,7 @@ namespace WeLive
 
             var response = await client.PostAsync($"api/properties/create_property/", content);
             var stringContent = await response.Content.ReadAsStringAsync();
-			if (stringContent.StartsWith("error:", StringComparison.CurrentCulture))
-			{
-				throw new Exception(ErrorMessage.ServerReturnError);
-			}
+            ErrorMessage.CheckRespond(stringContent);
             return stringContent.Trim();
      
         }
@@ -82,11 +72,7 @@ namespace WeLive
             string url = $"api/properties/del/?post_id=" + id;
 
             var json = await client.GetStringAsync(url);
-            if (json.StartsWith("error:", StringComparison.CurrentCulture))
-            {
-                throw new Exception(ErrorMessage.ServerReturnError);
-            }
-
+            ErrorMessage.CheckRespond(json);
         }
     }
 }

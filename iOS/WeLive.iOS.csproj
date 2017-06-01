@@ -137,6 +137,15 @@
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPhone App Icon iOS 5,6.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPhone App Icon iOS 7,9%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPhone App Icon iOS 7,9%403x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPhone App Icon iOS 5,6%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPhone Spotlight iOS 5,6 &amp; Settings.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPhone Spotlight iOS 7,9%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPhone Spotlight iOS 7,9%403x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPhone Spotlight iOS 5,6 &amp; Settings%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPhone Spotlight iOS 5,6 &amp; Settings%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\profile_generic.png" />
@@ -150,9 +159,6 @@
     <BundleResource Include="Resources\tab_feed.png" />
     <BundleResource Include="Resources\tab_feed%402x.png" />
     <BundleResource Include="Resources\tab_feed%403x.png" />
-    <BundleResource Include="Resources\xamarin_logo.png" />
-    <BundleResource Include="Resources\xamarin_logo%402x.png" />
-    <BundleResource Include="Resources\xamarin_logo%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDelegate.cs" />

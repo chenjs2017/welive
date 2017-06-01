@@ -23,7 +23,7 @@ namespace WeLive
 
             string url = String.Format("api/properties/generate_auth_cookie/?username={0}&password={1}", username, password);
             var json = await client.GetStringAsync(url);
-            if (json.StartsWith("error:", StringComparison.CurrentCulture))
+            if (ErrorMessage.ErrorContainCode(json, ErrorMessage.ServerReturnError))
             {
                 throw new Exception(ErrorMessage.LoginFail); 
             }
@@ -39,12 +39,7 @@ namespace WeLive
 
             string url = String.Format("api/properties/get_userinfo/");
 			var json = await client.GetStringAsync(url);
-            if (json.StartsWith("nologin:",StringComparison.CurrentCulture)){
-                throw new Exception(ErrorMessage.NotLogin); 
-            } else if (json.StartsWith("error:", StringComparison.CurrentCulture))
-			{
-                throw new Exception(ErrorMessage.ServerReturnError);
-			}
+            ErrorMessage.CheckRespond(json);
 			return await Task.Run(() => JsonConvert.DeserializeObject<User>(json));
 		}
 
@@ -59,11 +54,8 @@ namespace WeLive
 			var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
 
 			var response = await client.PostAsync($"api/properties/save_userinfo/", content);
-			var stringContent = await response.Content.ReadAsStringAsync();
-            if (stringContent.StartsWith("error:", StringComparison.CurrentCulture))
-			{
-				throw new Exception(ErrorMessage.ServerReturnError);
-			}
+			var stringContent = await response.Content.ReadAsStringAsync(); 
+            ErrorMessage.CheckRespond(stringContent);
         }
     }
 }
