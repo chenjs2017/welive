@@ -8,7 +8,7 @@ namespace WeLive
         }
 		public const string NetworkIssue = "network";
 		public const string LoginFail = "logfail";
-        public const string NotLogin = "notlogin";
+        public const string NotLogin = "nologin";
         public const string ServerReturnError = "servererror";
         public const string DecodeEorror = "decodeerror";
 
@@ -24,7 +24,7 @@ namespace WeLive
             } 
             else if (messageCode == NotLogin)
             {
-                return "请登录服务器(Please login)";
+                return "请重新登录(Please login)";
             } 
             else if (messageCode == ServerReturnError)
             {

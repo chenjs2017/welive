@@ -23,7 +23,7 @@ namespace WeLive
 
             string url = String.Format("api/properties/generate_auth_cookie/?username={0}&password={1}", username, password);
             var json = await client.GetStringAsync(url);
-            if (json.Contains("error"))
+            if (json.StartsWith("error:", StringComparison.CurrentCulture))
             {
                 throw new Exception(ErrorMessage.LoginFail); 
             }
@@ -39,7 +39,9 @@ namespace WeLive
 
             string url = String.Format("api/properties/get_userinfo/");
 			var json = await client.GetStringAsync(url);
-			if (json.Contains("error"))
+            if (json.StartsWith("nologin:",StringComparison.CurrentCulture)){
+                throw new Exception(ErrorMessage.NotLogin); 
+            } else if (json.StartsWith("error:", StringComparison.CurrentCulture))
 			{
                 throw new Exception(ErrorMessage.ServerReturnError);
 			}
@@ -58,7 +60,7 @@ namespace WeLive
 
 			var response = await client.PostAsync($"api/properties/save_userinfo/", content);
 			var stringContent = await response.Content.ReadAsStringAsync();
-			if (stringContent.Contains("error"))
+            if (stringContent.StartsWith("error:", StringComparison.CurrentCulture))
 			{
 				throw new Exception(ErrorMessage.ServerReturnError);
 			}

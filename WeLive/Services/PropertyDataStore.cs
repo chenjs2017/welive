@@ -29,7 +29,7 @@ namespace WeLive
             {
                 throw new Exception(ErrorMessage.NotLogin);
             } 
-            else if (json.Contains("error"))
+            else if (json.StartsWith("error", StringComparison.CurrentCulture))
             {
                 throw new Exception(ErrorMessage.ServerReturnError);
             }
@@ -66,7 +66,7 @@ namespace WeLive
 
             var response = await client.PostAsync($"api/properties/create_property/", content);
             var stringContent = await response.Content.ReadAsStringAsync();
-			if (stringContent.Contains("error"))
+			if (stringContent.StartsWith("error:", StringComparison.CurrentCulture))
 			{
 				throw new Exception(ErrorMessage.ServerReturnError);
 			}
@@ -82,7 +82,7 @@ namespace WeLive
             string url = $"api/properties/del/?post_id=" + id;
 
             var json = await client.GetStringAsync(url);
-            if (json.Contains("error"))
+            if (json.StartsWith("error:", StringComparison.CurrentCulture))
             {
                 throw new Exception(ErrorMessage.ServerReturnError);
             }
