@@ -41,14 +41,22 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button Clicked ="btnBrowsePhotos_Click" Text="选择图片(Pick Picture)"  Grid.Row="0" Grid.Column="0" x:Name="btnBrowsePhoto" IsEnabled="{Binding CanAddPhoto}"/>
-                <Button Clicked="btnTakePhotos_Click" Text="拍照上传(Take Picture)"  Grid.Row="0" Grid.Column="1" x:Name="btnTakePhoto" IsEnabled="{Binding CanAddPhoto}"/>
+                <Button Clicked ="btnBrowsePhotos_Click" Text="浏览图片 Pick Pic"  Grid.Row="0" Grid.Column="0" x:Name="btnBrowsePhoto" IsEnabled="{Binding CanAddPhoto}"/>
+                <Button Clicked="btnTakePhotos_Click" Text="拍照上传 Take Pic"  Grid.Row="0" Grid.Column="1" x:Name="btnTakePhoto" IsEnabled="{Binding CanAddPhoto}"/>
                 </Grid>
                 
               <Grid x:Name="picGrid">
             </Grid>   
+             <StackLayout  VerticalOptions="Center" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                    <ActivityIndicator.Color>
+                        <OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
+                    </ActivityIndicator.Color>
+                </ActivityIndicator>
+                <Label Text="{Binding Message}" VerticalOptions="Center" FontSize="Small" TextColor="Red" HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+            <Button Margin="0,10,0,0" Text="保存(Save)" Clicked="Save_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
 
-            
         </StackLayout>
                
             </ScrollView>

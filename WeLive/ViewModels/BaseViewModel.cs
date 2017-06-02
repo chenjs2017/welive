@@ -1,5 +1,7 @@
 ﻿using Xamarin.Forms;
-
+using System.Threading;
+using System;
+using System.Threading.Tasks;
 namespace WeLive
 {
     public class BaseViewModel : ObservableObject
@@ -35,5 +37,16 @@ namespace WeLive
 			get { return message; }
 			set { message = value; OnPropertyChanged(); }
 		}
+        public async Task InitOptions()
+        {
+			if (App.MaxImageCount == 0)
+			{
+				App.MaxImageCount = await TheMediaDataStore.GetMaxUploadImageCount();
+			}
+			if (App.CurrentUser == null)
+			{
+				App.CurrentUser = await TheLoginDataStore.GetCurrentUser();
+			}
+        }
     }
 }

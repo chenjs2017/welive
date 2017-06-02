@@ -39,16 +39,8 @@ namespace WeLive
             IsBusy = true;
             try
             {
-				if (App.MaxImageCount == 0)
-				{
-					App.MaxImageCount = await TheMediaDataStore.GetMaxUploadImageCount();
-				}
-				if (App.CurrentUser == null)
-				{
-					App.CurrentUser = await TheLoginDataStore.GetCurrentUser();
-				}
-
-                var items = await ThePropertyDataStore.GetItemsAsync();
+                InitOptions();
+				var items = await ThePropertyDataStore.GetItemsAsync();
 				Items.ReplaceRange(items);
             }
         

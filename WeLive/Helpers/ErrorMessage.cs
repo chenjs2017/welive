@@ -1,4 +1,6 @@
 ﻿using System;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 namespace WeLive
 {
     public class ErrorMessage
@@ -52,5 +54,6 @@ namespace WeLive
                 throw new Exception(ErrorMessage.ServerReturnError);
             }
         }
+
     }
 }

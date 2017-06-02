@@ -17,9 +17,9 @@
             <Entry x:Name ="txtPhone" FontSize="Small" />
             <Label Text="地址(address)"  />
             <Entry x:Name = "txtAddress" FontSize="Small" />
-                <Button Margin="0,10,0,0" Text="保存设置（logout)" Clicked="Save_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
-                <Button Margin="0,10,0,0" Text="退出登录（logout)" Command="{Binding SignOutCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
-				<Button Margin="0,10,0,0" Text="关于我们(About us)" Command="{Binding OpenWebCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+                <Button Margin="0,10,0,0" Text="保存设置(Save)" Clicked="Save_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+                <Button Margin="0,10,0,0" Text="退出登录(logout)" Command="{Binding SignOutCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+				<Button Margin="0,10,0,0" Text="金牌资讯网(Visit us)" Command="{Binding OpenWebCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
 			</StackLayout>
 		</ScrollView>
 

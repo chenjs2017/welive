@@ -21,15 +21,20 @@ namespace WeLive
             if (item == null)
             {
                 item = new Property();
-                item.address = App.CurrentUser.address;
+                if (App.CurrentUser != null)
+                {
+                    item.address = App.CurrentUser.address;
+                }
                 item.title = "";
                 item.content = "";
-            }
-			Title = item.title;
-			Item = item;
-
-             OpenWebCommand = new Command(() => Device.OpenUri(new Uri(item.url)));
-
+            } 
+            else
+            {
+				OpenWebCommand = new Command(() => Device.OpenUri(new Uri(item.url)));
+			}
+                
+            Title = item.title;
+            Item = item;
         }
         
         public async Task Delete()
@@ -146,6 +151,10 @@ namespace WeLive
         {
             get
             {
+                if (App.MaxImageCount == 0)
+                {
+                    return 1;
+                }
                 return (App.MaxImageCount - 1) / Settings.ImagesPerRow + 1;
             }
         }

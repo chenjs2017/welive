@@ -88,7 +88,7 @@ namespace WeLive
         {
             get
             {
-                return 30;
+                return 25;
             }
         }
 

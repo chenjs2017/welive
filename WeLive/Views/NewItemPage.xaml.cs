@@ -17,6 +17,7 @@ namespace WeLive
         public List<Button> listButton;
         ItemDetailViewModel viewModel;
         DynamicGrid dynamicGrid;
+       
 		public NewItemPage()
 		{
 			InitializeComponent();
@@ -31,9 +32,10 @@ namespace WeLive
         }
 
         IMedia current = null;
-		protected override void OnAppearing()
+		protected async override  void OnAppearing()
 		{
 			base.OnAppearing();
+            await viewModel.InitOptions();
             if (dynamicGrid==null)
             {
                 InitImageControls();

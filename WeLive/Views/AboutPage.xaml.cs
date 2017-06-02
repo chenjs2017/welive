@@ -23,16 +23,24 @@ namespace WeLive
             }
         }
 
-
-
-		protected override void OnAppearing()
+		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
-           
-            txtPhone.Text = viewModel.CurrentUser.phone;
-            txtAddress.Text = viewModel.CurrentUser.address;
-            lblUserName.Text = viewModel.CurrentUser.username;
-            lblEmail.Text = viewModel.CurrentUser.email;
+            try 
+            {
+				await viewModel.InitOptions();
+				if (viewModel.CurrentUser != null)
+				{
+					txtPhone.Text = viewModel.CurrentUser.phone;
+					txtAddress.Text = viewModel.CurrentUser.address;
+					lblUserName.Text = viewModel.CurrentUser.username;
+					lblEmail.Text = viewModel.CurrentUser.email;
+				}
+            }
+ 			catch (System.Exception ex)
+			{
+				await DisplayAlert("", ErrorMessage.GetMessage(ex.Message), "确定(OK)");
+			}
 		}
 
         async void Save_Clicked(object sender, System.EventArgs e)

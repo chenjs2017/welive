@@ -31,6 +31,8 @@ namespace WeLive
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
+            if (IsBusy)
+                return;
             await Navigation.PushAsync(new NewItemPage());
         }
 
@@ -38,6 +40,7 @@ namespace WeLive
         {
             base.OnAppearing();
             await viewModel.ExecuteLoadItemsCommand();
-        }
+      }
+
     }
 }

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="WeLive.ItemDetailPage" Title="{Binding Title}">
+     <ScrollView>
 	<StackLayout Spacing="20" Padding="15">
+        <Button Margin="0,10,0,0" Text="查看在线网页(view online)" Command="{Binding OpenWebCommand}" 
+        BackgroundColor="{StaticResource Primary}" TextColor="White" IsVisible="{Binding IsPublished}"/>
+        <Button Margin="0,10,0,0" Text="删除(Delete)" Clicked="Delete_Clicked" 
+        BackgroundColor="{StaticResource Primary}" TextColor="White" IsVisible="{Binding NotPublished}"/>
         <Label Text="{Binding DisplayStatus}" FontSize="Small" TextColor="Red" />
 		<Label Text="{Binding Item.title}" FontSize="Medium" />
         <Label Text="{Binding Item.address}" FontSize="Small" />
@@ -14,4 +19,5 @@
         BackgroundColor="{StaticResource Primary}" TextColor="White" IsVisible="{Binding NotPublished}"/>
 
 	</StackLayout>
+        </ScrollView>
 </ContentPage>

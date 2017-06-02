@@ -1,11 +1,11 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WeLive", "WeLive\WeLive.shproj", "{21D07BAD-0AC6-4E6C-BC43-33AE771EFBE9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeLive.iOS", "iOS\WeLive.iOS.csproj", "{F15AABE0-77D8-4B25-9E8A-28C790700418}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeLive.Droid", "Droid\WeLive.Droid.csproj", "{8A4C8E2D-CE40-4A28-B1DB-6A8778F3F879}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WeLive", "WeLive\WeLive.shproj", "{E8BCAB61-2DA6-454B-95AA-A21708E055C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
