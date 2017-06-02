@@ -92,7 +92,7 @@ namespace WeLive
                     Item.attachments.Add(att);
                     i++;
                 }
-                if (Item.address.Trim() != App.CurrentUser.address.Trim())
+                if (Item.address!= App.CurrentUser.address)
                 {
                     App.CurrentUser.address = Item.address.Trim();
                     await TheLoginDataStore.SaveCurrentUser(App.CurrentUser);
