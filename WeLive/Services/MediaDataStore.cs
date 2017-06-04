@@ -41,7 +41,7 @@ namespace WeLive
             
             string url = "api/properties/get_max_image_count";
             var count = await client.GetStringAsync(url);
-            ErrorMessage.CheckRespond(url);
+            ErrorMessage.CheckRespond(count);
             return System.Int32.Parse(count.Trim().Replace("\"",""));
         }
     }

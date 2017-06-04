@@ -19,18 +19,29 @@ namespace WeLive
             LoadItemsCommand = new Command(async () => {Items.Clear(); await ExecuteLoadItemsCommand(); });
 
             MessagingCenter.Subscribe<NewItemPage, Property>(this, "AddItem", (obj, item) =>
-           {
-			   var _item = item as Property;
-                Items.Insert(0 ,_item);
-           });
+	           {
+				   var _item = item as Property;
+	                Items.Insert(0 ,_item);
+	           });
 
             MessagingCenter.Subscribe<ItemDetailPage, Property>(this, "DeleteItem", (obj, item) =>
              {
-                 var _item = item as Property;
-                 Items.Remove(_item);
+                var _item = item as Property;
+                for (int i = 0; i < Items.Count; i ++)
+                {
+                    if (Items[i].id == _item.id)
+                    {
+                        Items.RemoveAt(i);
+                        break;
+                    }
+                }
              });
         }
 
+        public async Task<Property> RefreshProperty(Property item)
+        {
+            return await ThePropertyDataStore.GetItem(item.id);
+        }
         public async Task ExecuteLoadItemsCommand()
         {
             if (IsBusy || (Items.Count > 0))
@@ -39,8 +50,8 @@ namespace WeLive
             IsBusy = true;
             try
             {
-                InitOptions();
-				var items = await ThePropertyDataStore.GetItemsAsync();
+                await InitOptions();
+                var items = await ThePropertyDataStore.GetItemsAsync(null);
 				Items.ReplaceRange(items);
             }
         

@@ -41,7 +41,7 @@
 		<true/>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>jschen.WeLive</string>
+	<string>dachengkey.WeLive</string>
 	<key>NSCameraUsageDescription</key>
 	<string>New Entry</string>
 	<key>NSPhotoLibraryUsageDescription</key>

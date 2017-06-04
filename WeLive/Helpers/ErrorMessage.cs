@@ -2,6 +2,9 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Threading.Tasks;
+using System.Net;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 namespace WeLive
 {
     public class ErrorMessage
@@ -14,6 +17,7 @@ namespace WeLive
         public const string NotLogin = "nologin";
         public const string ServerReturnError = "error";
         public const string DecodeEorror = "decodeerror";
+        public const string ServerReturnWarning = "warning";
 
         public static string GetMessage(string messageCode)
         {
@@ -42,19 +46,32 @@ namespace WeLive
 
         public static bool ErrorContainCode(string respond, string err)
         {
-            return respond.Trim().Replace("\"", "").StartsWith(err,StringComparison.CurrentCulture); 
+            return respond.StartsWith(err,StringComparison.CurrentCulture); 
         }
         public static void CheckRespond(string respond)
         {
-            if (ErrorContainCode(respond,ErrorMessage.NotLogin))
+            string decode = respond.Trim().Replace("\"","");
+           
+            if (ErrorContainCode(decode,ErrorMessage.NotLogin))
             {
                 throw new Exception(ErrorMessage.NotLogin) ;
             }
-            else if (ErrorContainCode(respond,ErrorMessage.ServerReturnError))
+            else if (ErrorContainCode(decode, ErrorMessage.ServerReturnError))
             {
                 throw new Exception(ErrorMessage.ServerReturnError);
             }
+            else if (ErrorContainCode(decode, ErrorMessage.ServerReturnWarning))
+            {
+                throw new Exception(decode = Unicode2String(decode.Substring(ServerReturnWarning.Length)));
+            }
         }
+
+		public static string Unicode2String(string source)
+		{
+			return new Regex(@"\\u([0-9A-F]{4})", RegexOptions.IgnoreCase | RegexOptions.Compiled).Replace(
+						 source, x => string.Empty + Convert.ToChar(Convert.ToUInt16(x.Result("$1"), 16)));
+		}
+      
 
     }
 }

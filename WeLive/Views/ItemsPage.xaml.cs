@@ -22,9 +22,16 @@ namespace WeLive
             var item = args.SelectedItem as Property;
             if (item == null)
                 return;
-
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
-
+            try 
+            {
+				Property newProperty = await viewModel.RefreshProperty(item);
+				await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(newProperty)));
+			}
+            catch (System.Exception ex)
+            {
+                await DisplayAlert("", ErrorMessage.GetMessage(ex.Message),"确定(OK)");
+            }
+           
             // Manually deselect item
             ItemsListView.SelectedItem = null;
         }

@@ -16,15 +16,24 @@ namespace WeLive
 {
     public class PropertyDataStore : BaseDataStore
     {
-
-        public async Task<IEnumerable<Property>> GetItemsAsync()
+        public async Task<Property> GetItem(string postID)
         {
-
+			var arr = await GetItemsAsync(postID);
+            if (arr.Count > 0)
+                return arr[0];
+            throw new Exception("信息不存在(information not exits)"); 
+        }
+        public async Task<List<Property>> GetItemsAsync(string postID)
+        {
             if (!CrossConnectivity.Current.IsConnected)
                 throw new Exception(ErrorMessage.NotLogin);
 			List<Property> items = new List<Property>();
-
-			var json = await client.GetStringAsync($"api/properties/get_my_properties/?count=50");
+            string url = $"api/properties/get_my_properties/?count=50";
+            if (!string.IsNullOrEmpty(postID))
+            {
+                url += "&post_id=" + postID;
+            }
+            var json = await client.GetStringAsync(url);
             ErrorMessage.CheckRespond(json);
 
             JObject root = JObject.Parse(json);
@@ -45,8 +54,6 @@ namespace WeLive
             }
             return items;
         }
-
-     
 
         public async Task<string> AddItemAsync(Property item)
         {

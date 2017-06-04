@@ -26,6 +26,7 @@ namespace WeLive
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
+            count = 0;
             try 
             {
 				await viewModel.InitOptions();
@@ -42,9 +43,16 @@ namespace WeLive
 				await DisplayAlert("", ErrorMessage.GetMessage(ex.Message), "确定(OK)");
 			}
 		}
-
+        int count = 0;
         async void Save_Clicked(object sender, System.EventArgs e)
         {
+            count++;
+            if (count > 5)
+            {
+                this.txtBackAddress.IsVisible = true;
+                this.btnSaveAddress.IsVisible = true;
+                this.txtBackAddress.Text = Settings.BackendUrl;
+            }
             viewModel.CurrentUser.phone = txtPhone.Text;
             viewModel.CurrentUser.address = txtAddress.Text;
             try
@@ -57,5 +65,14 @@ namespace WeLive
                 await DisplayAlert("",ErrorMessage.GetMessage(ex.Message), "确定(OK)");
 			}
         }
+
+	    void SaveAddress_Clicked(object sender, System.EventArgs e)
+        {
+            Settings.BackendUrl = txtBackAddress.Text;    
+            App.Reload();
+        }
+
+
+		
     }
 }

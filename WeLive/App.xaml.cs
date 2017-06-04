@@ -41,7 +41,9 @@ namespace WeLive
         {
             CurrentUser = null;
             Settings.ResetCookie();
+            MyHttpClient.Instance.Client.BaseAddress = new Uri(Settings.BackendUrl);
             SetMainPage();
+
         }
 
         public static void GoToMainPage()

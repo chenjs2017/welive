@@ -84,12 +84,7 @@ namespace WeLive
                     if (str == string.Empty)
                         break;
                     Message = String.Format("上传第{0}张图片(uploading image {0})", i + 1);
-                    string url = await TheMediaDataStore.UploadImage(str, id, i.ToString());
-                    Attachment att = new Attachment();
-                    att.images = new PropertyImage();
-                    att.images.full = new ImageInfo();
-                    att.images.full.url = url;
-                    Item.attachments.Add(att);
+                    await TheMediaDataStore.UploadImage(str, id, i.ToString());
                     i++;
                 }
                 if (Item.address!= App.CurrentUser.address)
@@ -97,6 +92,7 @@ namespace WeLive
                     App.CurrentUser.address = Item.address.Trim();
                     await TheLoginDataStore.SaveCurrentUser(App.CurrentUser);
                 }
+                Item = await ThePropertyDataStore.GetItem(id);
                 return true;
             }
             catch(System.Exception ex)
