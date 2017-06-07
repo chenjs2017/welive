@@ -57,5 +57,21 @@ namespace WeLive
 			var stringContent = await response.Content.ReadAsStringAsync(); 
             ErrorMessage.CheckRespond(stringContent);
         }
+
+		public async Task<Cookie> RegisterUser(User user)
+		{
+			if (!CrossConnectivity.Current.IsConnected)
+			{
+				throw new Exception(ErrorMessage.NetworkIssue);
+			}
+
+			var serializedItem = JsonConvert.SerializeObject(user);
+			var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
+
+			var response = await client.PostAsync($"api/properties/register/", content);
+			var stringContent = await response.Content.ReadAsStringAsync();
+			ErrorMessage.CheckRespond(stringContent);
+			return await Task.Run(() => JsonConvert.DeserializeObject<Cookie>(stringContent));
+		}
     }
 }

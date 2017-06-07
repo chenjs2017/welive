@@ -37,9 +37,10 @@ namespace WeLive
            
         }
 
-        public static void Reload()
+
+        public static void Reload(User newUser)
         {
-            CurrentUser = null;
+            CurrentUser = newUser;
             Settings.ResetCookie();
             MyHttpClient.Instance.Client.BaseAddress = new Uri(Settings.BackendUrl);
             SetMainPage();
@@ -48,9 +49,6 @@ namespace WeLive
 
         public static void GoToMainPage()
         {
-
-			
-
             Current.MainPage = new TabbedPage
             {
                 Children = {

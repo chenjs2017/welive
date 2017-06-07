@@ -140,14 +140,22 @@
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\29.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\58.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\57.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\87.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\114.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\180.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\80.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingL29.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG58.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingL87.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLO80.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG120.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG57.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG114.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG180.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG40.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG50.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG100.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG72.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG144.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG76.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG152.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\jinlistingLOG167.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\profile_generic.png" />

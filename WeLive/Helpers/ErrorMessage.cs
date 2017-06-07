@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
+
 namespace WeLive
 {
     public class ErrorMessage
@@ -46,8 +48,9 @@ namespace WeLive
 
         public static bool ErrorContainCode(string respond, string err)
         {
-            return respond.StartsWith(err,StringComparison.CurrentCulture); 
+            return respond.Trim().Replace("\"", "").StartsWith(err,StringComparison.CurrentCulture); 
         }
+
         public static void CheckRespond(string respond)
         {
             string decode = respond.Trim().Replace("\"","");
@@ -72,6 +75,34 @@ namespace WeLive
 						 source, x => string.Empty + Convert.ToChar(Convert.ToUInt16(x.Result("$1"), 16)));
 		}
       
+        public static void ValidateEmpty(string input, string message1, string message2)
+        {
+            if (string.IsNullOrEmpty(input))
+                throw new Exception(string.Format("请输入{0}(please enter {1})", message1, message2)); 
+        }
+		static Regex ValidEmailRegex = CreateValidEmailRegex();
 
+		private static Regex CreateValidEmailRegex()
+		{
+			string validEmailPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
+				+ @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
+				+ @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+
+			return new Regex(validEmailPattern, RegexOptions.IgnoreCase);
+		}
+
+		public static void ValidateEmail(string emailAddress)
+		{
+            if (!ValidEmailRegex.IsMatch(emailAddress))
+                throw new Exception("邮件地址不合法(Email address is invalid)");
+		}
+
+		public static void ValidateEqual(string var1,string var2, string msg)
+		{
+            if (var1 != var2)
+            {
+                throw new Exception(msg); 
+            }
+		}
     }
 }

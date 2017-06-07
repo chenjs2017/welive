@@ -59,7 +59,7 @@ namespace WeLive
             {
                 if (ex.Message == ErrorMessage.NotLogin)
                 {
-                    App.Reload();
+                    App.Reload(null);
                 }
                 else
                 {

@@ -27,10 +27,10 @@
 			</StackLayout>
             
                 <Label Grid.Row="1" Grid.Column="0" Text="用户名(Username)" FontSize="Small" />
-                <Entry Grid.Row="1" Grid.Column="1"  Text="{Binding LoginUser.username, Mode=TwoWay}" FontSize="Small" />
+                <Entry Grid.Row="1" Grid.Column="1"  Text="{Binding CurrUser.username, Mode=TwoWay}" FontSize="Small" />
 
                 <Label Grid.Row="2" Grid.Column="0" Text="密  码(Password)" FontSize="Small" />
-                <Entry IsPassword="true"  Grid.Row="2" Grid.Column="1"  Text="{Binding LoginUser.password, Mode=TwoWay}" FontSize="Small"  />
+                <Entry IsPassword="true"  Grid.Row="2" Grid.Column="1"  Text="{Binding CurrUser.password, Mode=TwoWay}" FontSize="Small"  />
             
 			<Button Grid.Row="3" Grid.Column="0" Text="注册 Signup" Command="{Binding NotNowCommand}" 
                 x:Name="ButtonNowNow" HorizontalOptions="FillAndExpand" FontSize="Small"/>
@@ -48,5 +48,6 @@
             </StackLayout>
            
 		</Grid>
+        
 	</ScrollView>
 </ContentPage>

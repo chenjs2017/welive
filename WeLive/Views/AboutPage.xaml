@@ -19,9 +19,7 @@
             <Button Margin="0,10,0,0" Text="保存设置(Save)" Clicked="Save_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
             <Button Margin="0,10,0,0" Text="退出登录(logout)" Command="{Binding SignOutCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
 			<Button Margin="0,10,0,0" Text="金牌资讯网(Visit us)" Command="{Binding OpenWebCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
-            <Entry x:Name = "txtBackAddress" FontSize="Small" IsVisible="false"/>
-            <Button x:Name ="btnSaveAddress" Margin="0,10,0,0" Text="Save address" Clicked="SaveAddress_Clicked" BackgroundColor="{StaticResource Primary}" 
-                TextColor="White" IsVisible="false" />
+           
 
         </StackLayout>
 		</ScrollView>

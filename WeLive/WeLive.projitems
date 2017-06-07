@@ -47,6 +47,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ErrorMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\CarouselView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\DynamicGrid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Resister.xaml.cs">
+      <DependentUpon>Resister.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml" />
@@ -55,5 +58,8 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewItemPage.xaml" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Resister.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

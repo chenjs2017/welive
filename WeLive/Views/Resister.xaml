@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="WeLive.Resister">
+	<ContentPage.Content>
+        <ScrollView>
+        <StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="10" >
+            <Label Text="用户名(UserName)" FontSize="Small" />
+            <Entry  FontSize="Small" x:Name="txtUserName"  Text="{Binding CurrUser.username, Mode=TwoWay}"/>
+            <Label Text="电子邮件(Email)" FontSize="Small" />
+            <Entry  FontSize="Small" x:Name="txtEmail"  Text="{Binding CurrUser.email, Mode=TwoWay}"/>
+            <Label Text="电话(phone number)"  FontSize="Small"/>
+            <Entry x:Name ="txtPhone" FontSize="Small"  Text="{Binding CurrUser.phone, Mode=TwoWay}"/>
+            <Label Text="地址(address)" FontSize="Small" />
+            <Entry x:Name = "txtAddress" FontSize="Small"  Text="{Binding CurrUser.address, Mode=TwoWay}"/>
+            <Label Text="密码(password)" FontSize="Small" />
+            <Entry IsPassword="true" x:Name = "txtPassword" FontSize="Small"  Text="{Binding CurrUser.password, Mode=TwoWay}"/>
+            <Label Text="确认密码(confirm password)"  FontSize="Small"/>
+            <Entry  IsPassword="true" x:Name = "txtRePassword" FontSize="Small" />
+            <Button Text="注册 Signup" Clicked="Signup_Clicked" TextColor="White"
+                x:Name="ButtonNowNow" HorizontalOptions="FillAndExpand" 
+                BackgroundColor="{StaticResource Primary}"  FontSize="Small"/>
+            <Button Text="已经有账号，直接登录(SignIn)" Clicked="Login_Clicked"
+                HorizontalOptions="FillAndExpand"  
+              FontSize="Small"/>
+               <Entry x:Name = "txtBackAddress" FontSize="Small" IsVisible="false"/>
+            <Button x:Name ="btnSaveAddress" Margin="0,10,0,0" Text="Save address" Clicked="SaveAddress_Clicked" BackgroundColor="{StaticResource Primary}" 
+                TextColor="White" IsVisible="false" />
+        </StackLayout>    
+            </ScrollView>
+	</ContentPage.Content>
+</ContentPage>

@@ -25,7 +25,7 @@ namespace WeLive
             Title = "设置(Settings)";
 
             OpenWebCommand = new Command(() => Device.OpenUri(new Uri(Settings.BackendUrl)));
-            SignOutCommand = new Command(() => { App.Reload();});
+            SignOutCommand = new Command(() => { App.Reload(null);});
         }
 
 
