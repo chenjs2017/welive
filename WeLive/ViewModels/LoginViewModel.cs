@@ -28,6 +28,7 @@ namespace WeLive
 
         public async Task Register()
         {
+            App.ResetCookie();
             await TheLoginDataStore.RegisterUser(currUser);
         }
         async Task SignIn()
@@ -43,7 +44,7 @@ namespace WeLive
                 }
                 else
                 {
-                    // Log the user in
+                    App.ResetCookie();
                     var cookie = await TheLoginDataStore.DoLogin(currUser.username, currUser.password);
                     if (cookie != null)
                     {

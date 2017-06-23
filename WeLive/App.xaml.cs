@@ -37,12 +37,19 @@ namespace WeLive
            
         }
 
-
-        public static void Reload(User newUser)
+        public static void ResetCookie()
         {
-            CurrentUser = newUser;
-            Settings.ResetCookie();
-            MyHttpClient.Instance.Client.BaseAddress = new Uri(Settings.BackendUrl);
+			Settings.ResetCookie();
+			MyHttpClient.Instance.Client.BaseAddress = new Uri(Settings.BackendUrl);
+            MyHttpClient.Instance.SetCookie();
+            CurrentUser = null;
+            MaxImageCount = 0;
+        }
+
+
+        public static void Reload()
+        {
+            ResetCookie();
             SetMainPage();
 
         }

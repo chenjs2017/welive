@@ -17,7 +17,7 @@
             <Label Text="确认密码(confirm password)"  FontSize="Small"/>
             <Entry  IsPassword="true" x:Name = "txtRePassword" FontSize="Small" />
             <Button Text="注册 Signup" Clicked="Signup_Clicked" TextColor="White"
-                x:Name="ButtonNowNow" HorizontalOptions="FillAndExpand" 
+                x:Name="ButtonNowNow" HorizontalOptions="FillAndExpand" IsEnabled="{Binding !IsBusy}"
                 BackgroundColor="{StaticResource Primary}"  FontSize="Small"/>
             <Button Text="已经有账号，直接登录(SignIn)" Clicked="Login_Clicked"
                 HorizontalOptions="FillAndExpand"  
@@ -25,6 +25,13 @@
                <Entry x:Name = "txtBackAddress" FontSize="Small" IsVisible="false"/>
             <Button x:Name ="btnSaveAddress" Margin="0,10,0,0" Text="Save address" Clicked="SaveAddress_Clicked" BackgroundColor="{StaticResource Primary}" 
                 TextColor="White" IsVisible="false" />
+                <ActivityIndicator IsRunning="{Binding IsBusy}" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                    <ActivityIndicator.Color>
+                        <OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
+                    </ActivityIndicator.Color>
+                </ActivityIndicator>
+                <Label Text="{Binding Message}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" FontSize="Small" TextColor="Red"  />
+         
         </StackLayout>    
             </ScrollView>
 	</ContentPage.Content>

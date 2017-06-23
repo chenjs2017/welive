@@ -50,8 +50,8 @@ namespace WeLive
             IsBusy = true;
             try
             {
-                await InitOptions();
-                var items = await ThePropertyDataStore.GetItemsAsync(null);
+				await InitOptions();
+				var items = await ThePropertyDataStore.GetItemsAsync(null);
 				Items.ReplaceRange(items);
             }
         
@@ -59,7 +59,7 @@ namespace WeLive
             {
                 if (ex.Message == ErrorMessage.NotLogin)
                 {
-                    App.Reload(null);
+                    App.Reload();
                 }
                 else
                 {
